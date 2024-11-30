@@ -63,16 +63,14 @@ public class Inventory : MonoBehaviour
         {
             if (slot.item != null)
             {
-                if (slot.item.GetType() == typeof(FoodItem))
+                if (slot.item.type == ItemType.Food)
                 {
-                    FoodItem iii = slot.item as FoodItem;
-                    Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.GetType().Name}, Nutrition: {iii.nutritionValue}");
+                    Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.type}, Nutrition: {slot.item.nutritionValue}");
                 }
 
-                if (slot.item.GetType() == typeof(ResourceItem))
+                if (slot.item.type == ItemType.Resource)
                 {
-                    ResourceItem iii = slot.item as ResourceItem;
-                    Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.GetType().Name}");
+                    Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.type}");
                 }
             }
         }

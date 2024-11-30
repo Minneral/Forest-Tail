@@ -22,7 +22,12 @@ public class PlayerStatsUI : MonoBehaviour
     {
         try
         {
-            _stats = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player == null)
+                throw new MissingComponentException(nameof(Inventory), gameObject.name, GetType().Name, "You need to assign tag 'Player'");
+
+            _stats = player.GetComponent<PlayerStats>();
 
             if (_stats == null)
                 throw new MissingComponentException(nameof(PlayerStats), gameObject.name, GetType().Name, "You need to append 'PlayerStats' script");
@@ -50,18 +55,10 @@ public class PlayerStatsUI : MonoBehaviour
 
     void UpdateUI()
     {
-        // // Check if the difference is greater than 5 and transition smoothly
-        // if (Mathf.Abs(_stats.GetHealth() - targetHealthValue) > 5f)
-        // {
-            targetHealthValue = _stats.GetHealth();
-        // }
+        targetHealthValue = _stats.GetHealth();
 
-        // if (Mathf.Abs(_stats.GetStamina() - targetStaminaValue) > 5f)
-        // {
-            targetStaminaValue = _stats.GetStamina();
-        // }
+        targetStaminaValue = _stats.GetStamina();
 
-        // Smoothly transition to the target value
         healthSlider.value = Mathf.Lerp(healthSlider.value, targetHealthValue, Time.deltaTime * transitionSpeed);
         staminaSlider.value = Mathf.Lerp(staminaSlider.value, targetStaminaValue, Time.deltaTime * transitionSpeed);
     }
