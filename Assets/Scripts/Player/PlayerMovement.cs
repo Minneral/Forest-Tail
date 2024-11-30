@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity; // Вектор для хранения скорости движения
 
     public int staminaCostPerSecond = 5; // Расход стамины за секунду бега
+    public int jumpStaminaCost = 20; // Расход стамины за прыжок
+
     private float staminaUsage; // Счетчик для учета потраченной стамины
 
     void Start()
@@ -62,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {        
+    {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -108,10 +110,13 @@ public class PlayerMovement : MonoBehaviour
         // Прыжок
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            _animator.SetTrigger("Jumping");
+            if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                _animator.SetTrigger("Jumping");
+                _stats.TakeStamina(jumpStaminaCost); // Снимаем стамину за прыжок
+            }
         }
-
         // Расход стамины при беге
         if (isRunning)
         {
