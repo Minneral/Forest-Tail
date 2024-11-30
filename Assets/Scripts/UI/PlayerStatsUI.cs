@@ -10,6 +10,12 @@ public class PlayerStatsUI : MonoBehaviour
     public Slider healthSlider;
     public Slider staminaSlider;
 
+    // These will store the target values for health and stamina sliders
+    private float targetHealthValue;
+    private float targetStaminaValue;
+
+    // These will store the time taken for the sliders to move towards their target values
+    public float transitionSpeed = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +37,9 @@ public class PlayerStatsUI : MonoBehaviour
             return;
         }
 
-        Debug.Log(_stats);
-        Debug.Log(healthSlider);
+        // Initializing target values
+        targetHealthValue = _stats.GetHealth();
+        targetStaminaValue = _stats.GetStamina();
     }
 
     // Update is called once per frame
@@ -43,7 +50,19 @@ public class PlayerStatsUI : MonoBehaviour
 
     void UpdateUI()
     {
-        healthSlider.value = _stats.GetHealth();
-        staminaSlider.value = _stats.GetStamina();
+        // // Check if the difference is greater than 5 and transition smoothly
+        // if (Mathf.Abs(_stats.GetHealth() - targetHealthValue) > 5f)
+        // {
+            targetHealthValue = _stats.GetHealth();
+        // }
+
+        // if (Mathf.Abs(_stats.GetStamina() - targetStaminaValue) > 5f)
+        // {
+            targetStaminaValue = _stats.GetStamina();
+        // }
+
+        // Smoothly transition to the target value
+        healthSlider.value = Mathf.Lerp(healthSlider.value, targetHealthValue, Time.deltaTime * transitionSpeed);
+        staminaSlider.value = Mathf.Lerp(staminaSlider.value, targetStaminaValue, Time.deltaTime * transitionSpeed);
     }
 }
