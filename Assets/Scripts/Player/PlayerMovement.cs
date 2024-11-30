@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,11 +7,11 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private Transform _camera;
     private Transform _groundCheck;
+    private PlayerStats _stats;
 
     private float speed;
     public float turnSmoothTime = 0.1f;  // Время для плавного поворота
     float turnSmoothVelocity;  // Переменная для хранения скорости 
-
 
     public float walkSpeed = 1f; // Скорость ходьбы 
     public float runSpeed = 3f; // Скорость бега
@@ -25,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight = 1f; // Высота прыжка 
     private Vector3 velocity; // Вектор для хранения скорости движения
 
+    public int staminaCostPerSecond = 5; // Расход стамины за секунду бега
+    private float staminaUsage; // Счетчик для учета потраченной стамины
+
     void Start()
     {
         try
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
             _animator = GetComponent<Animator>();
             _camera = Camera.main?.transform;
             _groundCheck = transform.Find("GroundChecker");
+            _stats = GetComponent<PlayerStats>();
 
             if (_controller == null)
                 throw new MissingComponentException(nameof(CharacterController), gameObject.name, GetType().Name);
@@ -44,7 +47,11 @@ public class PlayerMovement : MonoBehaviour
                 throw new MissingComponentException(nameof(Camera), gameObject.name, GetType().Name, "Make sure you have assigned tag 'MainCamera' to an existing Camera");
 
             if (_groundCheck == null)
-                throw new MissingComponentException(nameof(Transform), gameObject.name, GetType().Name, "You need assign an Empty object called 'GroundChecker' as a parent object");
+                throw new MissingComponentException(nameof(Transform), gameObject.name, GetType().Name, "You need to assign an Empty object called 'GroundChecker' as a parent object");
+
+            if (_stats == null)
+                throw new MissingComponentException(nameof(PlayerStats), gameObject.name, GetType().Name, "You need to append 'PlayerStats' script");
+
         }
         catch (MissingComponentException ex)
         {
@@ -55,54 +62,70 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-{
-    float horizontal = Input.GetAxisRaw("Horizontal");
-    float vertical = Input.GetAxisRaw("Vertical");
+    {        
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
 
-    // Определяем направление движения
-    Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        // Определяем направление движения
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-    // Проверка нажатия клавиш для ходьбы и бега
-    bool isMoving = direction.magnitude >= 0.1f;
-    bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift); // Бег только при зажатом Shift и W
+        // Проверка нажатия клавиш для ходьбы и бега
+        bool isMoving = direction.magnitude >= 0.1f;
+        bool canRun = _stats.GetStamina() > 0;
+        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift) && canRun; // Бег только при зажатом Shift, W и наличии стамины
 
-    // Определяем скорость в зависимости от состояния
-    speed = isRunning ? runSpeed : (isMoving ? walkSpeed : 0);
+        // Определяем скорость в зависимости от состояния
+        speed = isRunning ? runSpeed : (isMoving ? walkSpeed : 0);
 
-    // Обновляем состояние анимации
-    _animator.SetBool("isWalking", isMoving && !isRunning);
-    _animator.SetBool("isRunning", isRunning);
+        // Обновляем состояние анимации
+        _animator.SetBool("isWalking", isMoving && !isRunning);
+        _animator.SetBool("isRunning", isRunning);
 
-    // Если есть движение, поворачиваем персонажа и двигаем его
-    if (isMoving)
-    {
-        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        // Если есть движение, поворачиваем персонажа и двигаем его
+        if (isMoving)
+        {
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-        Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-        _controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            _controller.Move(moveDir.normalized * speed * Time.deltaTime);
+        }
+
+        // Проверка земли
+        isGrounded = Physics.CheckSphere(_groundCheck.position, groundDistance, groundMask);
+
+        // Сбрасываем скорость падения, если на земле
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+
+        // Применяем гравитацию
+        velocity.y += gravity * Time.deltaTime;
+        _controller.Move(velocity * Time.deltaTime);
+
+        // Прыжок
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            _animator.SetTrigger("Jumping");
+        }
+
+        // Расход стамины при беге
+        if (isRunning)
+        {
+            staminaUsage += staminaCostPerSecond * Time.deltaTime; // Увеличиваем счетчик на основании времени кадра
+            int staminaToConsume = Mathf.CeilToInt(staminaUsage); // Округляем в большую сторону
+            if (staminaToConsume > 0)
+            {
+                _stats.TakeStamina(staminaToConsume); // Снимаем стамину
+                staminaUsage -= staminaToConsume; // Уменьшаем счетчик на израсходованное
+            }
+        }
+        else
+        {
+            staminaUsage = 0f; // Сбрасываем счетчик, если не бежим
+        }
     }
-
-    // Проверка земли
-    isGrounded = Physics.CheckSphere(_groundCheck.position, groundDistance, groundMask);
-
-    // Сбрасываем скорость падения, если на земле
-    if (isGrounded && velocity.y < 0)
-    {
-        velocity.y = -2f;
-    }
-
-    // Применяем гравитацию
-    velocity.y += gravity * Time.deltaTime;
-    _controller.Move(velocity * Time.deltaTime);
-
-    // Прыжок
-    if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-    {
-        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        _animator.SetTrigger("Jumping");
-    }
-}
-
 }
