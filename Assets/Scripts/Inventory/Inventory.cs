@@ -17,7 +17,7 @@ public class Inventory : MonoBehaviour
         // Проверяем, можно ли застакать предмет с существующими
         foreach (var slot in slots)
         {
-            if (slot.item != null && slot.item.GetType() == newItem.GetType())
+            if (slot.item != null && slot.item.type == newItem.type && slot.item.name == newItem.name)
             {
                 // Проверка, если предмет стакается
                 if (newItem.stackAmount > 1) // Предметы с возможностью стака добавляем
