@@ -38,10 +38,10 @@ public class PlayerMovement : MonoBehaviour
                 throw new MissingComponentException(nameof(CharacterController), gameObject.name, GetType().Name);
 
             if (_animator == null)
-                throw new MissingComponentException(nameof(Animator), gameObject.name, GetType().Name);
+                throw new MissingComponentException(nameof(Animator), gameObject.name, GetType().Name, "Make sure you have assigned AnimatorController component to player");
 
             if (_camera == null)
-                throw new MissingComponentException(nameof(Camera), gameObject.name, GetType().Name);
+                throw new MissingComponentException(nameof(Camera), gameObject.name, GetType().Name, "Make sure you have assigned tag 'MainCamera' to an existing Camera");
 
             if (_groundCheck == null)
                 throw new MissingComponentException(nameof(Transform), gameObject.name, GetType().Name, "You need assign an Empty object called 'GroundChecker' as a parent object");
