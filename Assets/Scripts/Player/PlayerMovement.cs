@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform _camera;
     private Transform _groundCheck;
     private PlayerStats _stats;
+    private InventoryUI _inventoryUI;
 
     private float speed;
     public float turnSmoothTime = 0.1f;  // Время для плавного поворота
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
             _camera = Camera.main?.transform;
             _groundCheck = transform.Find("GroundChecker");
             _stats = GetComponent<PlayerStats>();
+            _inventoryUI = GameObject.FindObjectOfType<InventoryUI>();
 
             if (_controller == null)
                 throw new MissingComponentException(nameof(CharacterController), gameObject.name, GetType().Name);
@@ -64,6 +66,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (_inventoryUI && _inventoryUI.isActive)
+        {
+            StopMovement();
+            return;
+        }
+
+        HandleMovement();
+    }
+
+    void HandleMovement()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -133,4 +146,16 @@ public class PlayerMovement : MonoBehaviour
             staminaUsage = 0f; // Сбрасываем счетчик, если не бежим
         }
     }
+
+    private void StopMovement()
+    {
+        speed = 0;
+        velocity = Vector3.zero;
+
+        _animator.SetBool("isWalking", false);
+        _animator.SetBool("isRunning", false);
+
+        _controller.Move(Vector3.zero);
+    }
+
 }
