@@ -1,66 +1,38 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DraggableUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    private RectTransform _rectTransform;
-    private Canvas _canvas;
-    private CanvasGroup _canvasGroup;
-    private Vector2 _originalPosition;
+    private Transform parentAfterDrag;
 
-    private InventorySlotUI _myType; // Ссылка на компонент MyType
+    public Transform parentTransform { get; private set;}
 
-    void Awake()
+    Image image;
+
+    void Start()
     {
-        _rectTransform = GetComponent<RectTransform>();
-        _canvas = GetComponentInParent<Canvas>();
-        _canvasGroup = GetComponent<CanvasGroup>();
-
-        // Попытка получить компонент MyType
-        _myType = GetComponent<InventorySlotUI>();
-
-        if (_canvasGroup == null)
-        {
-            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
+        image = transform.Find("SlotItemIcon").GetComponent<Image>();
+        parentTransform = transform.parent;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Проверяем, имеет ли объект компонент MyType
-        if (_myType == null)
-        {
-            Debug.LogWarning("Этот объект нельзя перетаскивать!");
-            return;
-        }
-
-        _originalPosition = _rectTransform.anchoredPosition;
-        _canvasGroup.alpha = 0.6f;
-        _canvasGroup.blocksRaycasts = false;
+        parentAfterDrag = transform.parent;
+        transform.SetParent(transform.root);
+        transform.SetAsLastSibling();
+        image.raycastTarget = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (_myType == null || _canvas == null) return;
-
-        Vector2 position;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            _canvas.transform as RectTransform,
-            eventData.position,
-            eventData.pressEventCamera,
-            out position
-        );
-        _rectTransform.anchoredPosition = position;
+        transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (_myType == null) return;
-
-        _canvasGroup.alpha = 1f;
-        _canvasGroup.blocksRaycasts = true;
-
-        // Если нужно вернуть объект в исходное положение:
-        _rectTransform.anchoredPosition = _originalPosition;
+        transform.SetParent(parentAfterDrag);
+        image.raycastTarget = true;
+        parentTransform = transform.parent;
     }
 }

@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ActiveSlotsBarUI : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class ActiveSlotsBarUI : MonoBehaviour
             _slotsUI = GetComponentsInChildren<InventorySlotUI>();
             if (_slotsUI.Length == 0)
                 throw new MissingComponentException($"No active inventory slots found in children of '{gameObject.name}'.");
+
+            for (int i = 0; i < _slotsUI.Length; i++)
+            {
+                _slotsUI[i].id = -1;
+            }
 
             UpdateSlotScales();
         }

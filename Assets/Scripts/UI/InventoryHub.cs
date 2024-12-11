@@ -26,6 +26,11 @@ public class InventoryHub : MonoBehaviour
             _slotsUI = GetComponentsInChildren<InventorySlotUI>().ToArray();
             if (_slotsUI == null)
                 throw new MissingComponentException(nameof(InventorySlotUI), gameObject.name, GetType().Name);
+
+            for (int i = 0; i < _slotsUI.Length; i++)
+            {
+                _slotsUI[i].id = i;
+            }
         }
         catch (MissingComponentException ex)
         {

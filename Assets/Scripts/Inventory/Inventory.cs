@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public int rows = 3;
+    public int rows = 4;
     public int columns = 7;
     public float MaxWeight = 100;
     public bool IsOverLoaded = false;
@@ -75,6 +75,42 @@ public class Inventory : MonoBehaviour
     {
         return slots.Sum(t => t.amount * (t.item == null ? 0 : t.item.itemWeight));
     }
+
+    public bool SwapItems(InventorySlot slot1, InventorySlot slot2)
+    {
+        // Check if both slots are not null
+        if (slot1 == null || slot2 == null)
+        {
+            Debug.LogError("One or both of the slots are null."); return false;
+        }
+        // Swap the items
+        Item tempItem = slot1.item;
+        int tempAmount = slot1.amount;
+
+        slot1.item = slot2.item;
+        slot1.amount = slot2.amount;
+
+        slot2.item = tempItem;
+        slot2.amount = tempAmount;
+        return true;
+    }
+    public bool SwapItems(int id1, int id2)
+    {
+        InventorySlot slot1 = GetSlotById(id1);
+        InventorySlot slot2 = GetSlotById(id2);
+
+        return SwapItems(slot1, slot2);
+    }
+
+    private InventorySlot GetSlotById(int id)
+    {
+        if (id < 0 || id >= slots.Count)
+        {
+            return null;
+        }
+        return slots[id];
+    }
+
 }
 
 public class InventorySlot
