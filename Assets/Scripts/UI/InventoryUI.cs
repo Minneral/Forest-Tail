@@ -8,7 +8,19 @@ public class InventoryUI : MonoBehaviour
     GameObject _background;
     GameObject _inventory;
     public bool isActive { get; private set; }
-    // Start is called before the first frame update
+    public static InventoryUI Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     void Start()
     {
         try
@@ -50,10 +62,17 @@ public class InventoryUI : MonoBehaviour
 
     void ToggleInventory(bool? state = null)
     {
-        if (state == null)
-            isActive = !isActive;
+        if (DialogueManager.Instance.dialogueBox.activeSelf)
+        {
+            isActive = false;
+        }
         else
-            isActive = Convert.ToBoolean(state);
+        {
+            if (state == null)
+                isActive = !isActive;
+            else
+                isActive = Convert.ToBoolean(state);
+        }
 
         _background.SetActive(isActive);
         _inventory.SetActive(isActive);

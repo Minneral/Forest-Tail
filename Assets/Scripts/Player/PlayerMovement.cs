@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (_inventoryUI && _inventoryUI.isActive)
+        if ((_inventoryUI && _inventoryUI.isActive) || DialogueManager.Instance.dialogueBox.activeSelf)
         {
             StopMovement();
             return;

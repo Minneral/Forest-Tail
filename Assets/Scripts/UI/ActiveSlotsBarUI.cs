@@ -10,7 +10,7 @@ public class ActiveSlotsBarUI : MonoBehaviour
     public int ActiveSlotIndex = 0;
 
     private readonly Vector3 _normalScale = Vector3.one;
-    private readonly Vector3 _activeScale = Vector3.one * 1.2f;
+    private readonly Vector3 _activeScale = Vector3.one * 1.1f;
 
     void Start()
     {
