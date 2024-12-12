@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,11 +41,19 @@ public class InventoryUI : MonoBehaviour
         {
             ToggleInventory();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ToggleInventory(false);
+        }
     }
 
-    void ToggleInventory()
+    void ToggleInventory(bool? state = null)
     {
-        isActive = !isActive;
+        if (state == null)
+            isActive = !isActive;
+        else
+            isActive = Convert.ToBoolean(state);
 
         _background.SetActive(isActive);
         _inventory.SetActive(isActive);
