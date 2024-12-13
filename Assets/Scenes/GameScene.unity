@@ -893,6 +893,7 @@ GameObject:
   - component: {fileID: 195305953}
   - component: {fileID: 195305952}
   - component: {fileID: 195305955}
+  - component: {fileID: 195305956}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1108,6 +1109,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &195305956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195305951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b949cc9b4c327d74caeeac7591eff11b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freeLook: {fileID: 195305953}
+  LockKeyCodes: 69000000
 --- !u!1 &201753003
 GameObject:
   m_ObjectHideFlags: 3
@@ -6994,7 +7009,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1568444236
 MonoBehaviour:

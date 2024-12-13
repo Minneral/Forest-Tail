@@ -22,6 +22,7 @@ public class SettingsMenu : MonoBehaviour
         int qualityIndex = PlayerPrefs.GetInt("quality", 2); // Значение по умолчанию - среднее качество
         qualityDropdown.value = qualityIndex;
         SetQuality(qualityIndex); // Применяем сохранённое качество
+
     }
 
     // Метод для изменения громкости
