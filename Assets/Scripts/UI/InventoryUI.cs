@@ -7,7 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     GameObject _background;
     GameObject _inventory;
-    public bool isActive { get; private set; }
+    public bool isActive { get; set; }
     public static InventoryUI Instance;
 
     private void Awake()
