@@ -65,11 +65,34 @@ public class PlayerInteraction : MonoBehaviour
         IInteractable interactable = other.GetComponent<IInteractable>();
         if (interactable != null)
         {
-            Debug.Log("FOcused");
-
             SetFocus(interactable);
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        // Проверяем, реализует ли объект интерфейс IInteractable
+        IInteractable interactable = other.GetComponent<IInteractable>();
+        if (interactable == null)
+            return;
+
+        // Если уже есть текущий фокус, проверяем приоритет
+        if (currentFocus != null)
+        {
+            // Если объект в фокусе тот же или ближе, сохраняем текущий фокус
+            float currentFocusDistance = Vector3.Distance(transform.position, focus.position);
+            float newFocusDistance = Vector3.Distance(transform.position, other.transform.position);
+
+            if (currentFocus == interactable || newFocusDistance >= currentFocusDistance)
+                return;
+        }
+
+        // Устанавливаем новый фокус
+        SetFocus(interactable);
+    }
+
+
+
     // Обработка выхода из триггера 
     private void OnTriggerExit(Collider other)
     {
