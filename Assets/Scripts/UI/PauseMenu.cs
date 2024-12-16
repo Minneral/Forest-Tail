@@ -6,11 +6,26 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
-    private bool isPaused = false;
+    public bool isPaused { get; private set; }
+
+    public static PauseMenu instance;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
         GameEventsManager.instance.inputEvents.onClosePressed += PausePressed;
+        isPaused = false;
     }
 
     private void OnDestroy()

@@ -49,13 +49,17 @@ public class InventoryUI : MonoBehaviour
         _inventory.SetActive(false);
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         GameEventsManager.instance.inputEvents.onInventoryPressed -= InventoryPressed;
         GameEventsManager.instance.inputEvents.onClosePressed -= CloseInventory;
     }
 
     void InventoryPressed()
     {
+        if (PauseMenu.instance.isPaused)
+            return;
+            
         ToggleInventory();
     }
 
