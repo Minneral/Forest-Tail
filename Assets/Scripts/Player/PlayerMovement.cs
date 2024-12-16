@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStats _stats;
     private InventoryUI _inventoryUI;
 
+
+    Vector3 direction;
     private float speed;
     public float turnSmoothTime = 0.1f;  // Время для плавного поворота
     float turnSmoothVelocity;  // Переменная для хранения скорости 
@@ -34,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
     {
         try
         {
+            GameEventsManager.instance.inputEvents.onMovePressed += MovePressed;
+            GameEventsManager.instance.inputEvents.onJumpPressed += Jump;
+
             _controller = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
             _camera = Camera.main?.transform;
@@ -55,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
 
             if (_stats == null)
                 throw new MissingComponentException(nameof(PlayerStats), gameObject.name, GetType().Name, "You need to append 'PlayerStats' script");
-
         }
         catch (MissingComponentException ex)
         {
@@ -65,9 +70,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        GameEventsManager.instance.inputEvents.onMovePressed -= MovePressed;
+            GameEventsManager.instance.inputEvents.onJumpPressed -= Jump;
+        // GameEventsManager.instance.playerEvents.onDisablePlayerMovement += DisablePlayerMovement;
+        // GameEventsManager.instance.playerEvents.onEnablePlayerMovement += EnablePlayerMovement;
+    }
+
     private void Update()
     {
-        if ((_inventoryUI && _inventoryUI.isActive) || DialogueManager.Instance.dialogueBox.activeSelf)
+        if ((_inventoryUI && _inventoryUI.isActive) || DialogueManager.instance.dialoguePanel.activeSelf)
         {
             StopMovement();
             return;
@@ -76,13 +89,32 @@ public class PlayerMovement : MonoBehaviour
         HandleMovement();
     }
 
+    void MovePressed(Vector2 movDir)
+    {
+        direction = new Vector3(movDir.x, 0, movDir.y).normalized;
+    }
+
+    void Jump()
+    {
+        // Прыжок
+        if (isGrounded)
+        {
+            if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                _animator.SetTrigger("Jumping");
+                _stats.TakeStamina(jumpStaminaCost); // Снимаем стамину за прыжок
+            }
+        }
+    }
+
     void HandleMovement()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
         // Определяем направление движения
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        // Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
         // Проверка нажатия клавиш для ходьбы и бега
         bool isMoving = direction.magnitude >= 0.1f;
@@ -120,16 +152,6 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         _controller.Move(velocity * Time.deltaTime);
 
-        // Прыжок
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                _animator.SetTrigger("Jumping");
-                _stats.TakeStamina(jumpStaminaCost); // Снимаем стамину за прыжок
-            }
-        }
         // Расход стамины при беге
         if (isRunning)
         {
@@ -150,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
     private void StopMovement()
     {
         speed = 0;
-        velocity = Vector3.zero;
+        velocity = new Vector3(0, velocity.y, 0); //  Vector3.zero;
 
         _animator.SetBool("isWalking", false);
         _animator.SetBool("isRunning", false);

@@ -4,20 +4,61 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    public Dialogue dialogue;
+    [Header("Visual Cue")]
+    // [SerializeField] private GameObject visualCue;
 
-    private void OnTriggerStay(Collider other)
+    [Header("Ink JSON")]
+    [SerializeField] private TextAsset inkJSON;
+
+    private bool playerInRange;
+
+    private void Awake()
     {
-        if (other.CompareTag("Player"))
+        playerInRange = false;
+        // visualCue.SetActive(false);
+    }
+
+    private void Start() {
+        GameEventsManager.instance.inputEvents.onSubmitPressed += OnSubmit;
+    }
+
+    private void OnDestroy() {
+        GameEventsManager.instance.inputEvents.onSubmitPressed -= OnSubmit;
+    }
+
+    private void Update()
+    {
+        if (playerInRange && !DialogueManager.instance.dialogueIsPlaying)
         {
-            if (Input.GetKeyDown(KeyCode.E) && !DialogueManager.Instance.dialogueBox.activeSelf)
-                TriggerDialogue();
+            // visualCue.SetActive(true);
+        }
+        else
+        {
+            // visualCue.SetActive(false);
         }
     }
 
-    public void TriggerDialogue()
+    void OnSubmit()
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        if (playerInRange && !DialogueManager.instance.dialogueIsPlaying)
+        {
+            DialogueManager.instance.EnterDialogueMode(inkJSON);
+        }
     }
 
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Player"))
+        {
+            playerInRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.CompareTag("Player"))
+        {
+            playerInRange = false;
+        }
+    }
 }

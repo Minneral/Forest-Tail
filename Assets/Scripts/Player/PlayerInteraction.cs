@@ -12,7 +12,6 @@ public class PlayerInteraction : MonoBehaviour
 
 
     private Transform rightHandBone; // Ссылка на трансформ правой руки
-    public KeyCode interactKey = KeyCode.E; // Клавиша для взаимодействия
     public float handReachDuration = 1.0f; // Время для движения руки к объекту
     private bool isHandMoving = false;  // Флаг для проверки, тянется ли рука
 
@@ -20,6 +19,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         try
         {
+            GameEventsManager.instance.inputEvents.onInteractPressed += PickUpItem;
+
             _animator = GetComponent<Animator>();
 
             if (_animator == null)
@@ -36,29 +37,35 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        GameEventsManager.instance.inputEvents.onInteractPressed -= PickUpItem;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(interactKey) && currentFocus != null)
-        {
-            StartCoroutine(RemoveObject());  // Поднять руку и удалить объект
-        }
-
         if (currentFocus != null && focus == null)
         {
             RemoveFocus();
         }
+    }
 
+    void PickUpItem()
+    {
+        if (currentFocus != null)
+        {
+            StartCoroutine(RemoveObject());  // Поднять руку и удалить объект
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entered");
         // Проверяем, реализует ли объект интерфейс IInteractable
         IInteractable interactable = other.GetComponent<IInteractable>();
         if (interactable != null)
         {
-        Debug.Log("FOcused");
+            Debug.Log("FOcused");
 
             SetFocus(interactable);
         }

@@ -62,7 +62,7 @@ public class InventoryUI : MonoBehaviour
 
     void ToggleInventory(bool? state = null)
     {
-        if (DialogueManager.Instance.dialogueBox.activeSelf)
+        if (DialogueManager.instance.dialoguePanel.activeSelf)
         {
             isActive = false;
         }

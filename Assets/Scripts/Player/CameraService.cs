@@ -38,7 +38,7 @@ public class CameraService : MonoBehaviour
 
     private void Update()
     {
-        bool shouldLock = InventoryUI.Instance.isActive || DialogueManager.Instance.dialogueBox.activeSelf;
+        bool shouldLock = InventoryUI.Instance.isActive || DialogueManager.instance.dialoguePanel.activeSelf;
         if (shouldLock != previousState)
         {
             IsLocked = shouldLock; // Устанавливаем состояние блокировки

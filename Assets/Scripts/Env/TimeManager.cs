@@ -100,7 +100,7 @@ public class TimeManager : MonoBehaviour
         service.UpdateTime(Time.deltaTime);
         if (timeText != null)
         {
-            timeText.text = service.CurrentTime.ToString("hh:mm");
+            timeText.text = service.CurrentTime.ToString("HH:mm");
         }
     }
 }
