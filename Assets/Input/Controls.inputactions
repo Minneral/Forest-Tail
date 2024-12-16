@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "QuestLogToggle",
-                    "type": "Button",
-                    "id": "401826fc-ba80-46d5-a856-aa9f53a0f853",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "c3c079cd-ae34-4b23-8255-d06a0b615753",
@@ -45,6 +36,24 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "44bd4723-c393-4173-8172-ef4b1acfa5df",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "5d3d5786-de5a-4e2a-b97a-7b9f869ccb57",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Close",
+                    "type": "Button",
+                    "id": "1eac1633-981a-486a-9122-b409ec8af5e8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -175,12 +184,12 @@
                 },
                 {
                     "name": "",
-                    "id": "89ff7116-85b8-4dd8-85f3-6acce7256002",
-                    "path": "<Keyboard>/q",
+                    "id": "5c974ff1-ee76-423e-b8e7-f5151191f99d",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "QuestLogToggle",
+                    "action": "Submit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -203,6 +212,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e75ed479-5bc5-4c3d-b90d-29dc58a06035",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f785405c-daf4-46c6-950c-db07b2d39714",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Close",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

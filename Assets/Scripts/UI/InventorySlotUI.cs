@@ -15,7 +15,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
     private TextMeshProUGUI _itemAmount;
     public int id;
 
-    void Start()
+    void Awake()
     {
         try
         {
@@ -69,6 +69,7 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
         _itemAmount.enabled = slot.amount > 1;
     }
 
+
     public void OnDrop(PointerEventData eventData)
     {
         GameObject dropped = eventData.pointerDrag;
@@ -82,9 +83,6 @@ public class InventorySlotUI : MonoBehaviour, IDropHandler
             Debug.LogError("Dropped slot UI is null.");
             return;
         }
-
-        Debug.Log("Current slot: " + this.id);
-        Debug.Log("Dropped slot: " + droppedSlotUI.id);
 
         _inventory.SwapItems(this.id, droppedSlotUI.id);
     }

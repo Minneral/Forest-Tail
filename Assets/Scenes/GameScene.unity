@@ -7662,22 +7662,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1505466051}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
-        m_MethodName: QuestLogTogglePressed
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 401826fc-ba80-46d5-a856-aa9f53a0f853
-    m_ActionName: Gameplay/QuestLogToggle[/Keyboard/q]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1505466051}
-        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: JumpPressed
         m_Mode: 0
         m_Arguments:
@@ -7706,6 +7690,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 44bd4723-c393-4173-8172-ef4b1acfa5df
     m_ActionName: Gameplay/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1505466051}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: InventoryPressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5d3d5786-de5a-4e2a-b97a-7b9f869ccb57
+    m_ActionName: Gameplay/Inventory[/Keyboard/i]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1505466051}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: ClosePressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1eac1633-981a-486a-9122-b409ec8af5e8
+    m_ActionName: Gameplay/ContextMenu[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

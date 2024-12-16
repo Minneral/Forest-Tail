@@ -54,6 +54,12 @@ public class InventoryHub : MonoBehaviour
 
         for (int i = 0; i < slots.Length; i++)
         {
+            if (slots[i] == null)
+            {
+                _slotsUI[i].AssignItem(null);
+                continue;
+            }
+
             _slotsUI[i].AssignItem(slots[i]);
         }
 
@@ -62,4 +68,5 @@ public class InventoryHub : MonoBehaviour
             _slotsUI[i].AssignItem(null);
         }
     }
+
 }

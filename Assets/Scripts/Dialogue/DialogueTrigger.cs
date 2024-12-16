@@ -19,11 +19,11 @@ public class DialogueTrigger : MonoBehaviour
     }
 
     private void Start() {
-        GameEventsManager.instance.inputEvents.onSubmitPressed += OnSubmit;
+        GameEventsManager.instance.inputEvents.onInteractPressed += OnInteract;
     }
 
     private void OnDestroy() {
-        GameEventsManager.instance.inputEvents.onSubmitPressed -= OnSubmit;
+        GameEventsManager.instance.inputEvents.onInteractPressed -= OnInteract;
     }
 
     private void Update()
@@ -38,7 +38,7 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
-    void OnSubmit()
+    void OnInteract()
     {
         if (playerInRange && !DialogueManager.instance.dialogueIsPlaying)
         {

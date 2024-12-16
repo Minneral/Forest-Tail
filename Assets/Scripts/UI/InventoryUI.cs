@@ -7,7 +7,7 @@ public class InventoryUI : MonoBehaviour
 {
     GameObject _background;
     GameObject _inventory;
-    public bool isActive { get; set; }
+    public bool isActive { get; private set; }
     public static InventoryUI Instance;
 
     private void Awake()
@@ -23,6 +23,9 @@ public class InventoryUI : MonoBehaviour
     }
     void Start()
     {
+        GameEventsManager.instance.inputEvents.onInventoryPressed += InventoryPressed;
+        GameEventsManager.instance.inputEvents.onClosePressed += CloseInventory;
+
         try
         {
             isActive = false;
@@ -46,18 +49,19 @@ public class InventoryUI : MonoBehaviour
         _inventory.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            ToggleInventory();
-        }
+    private void OnDestroy() {
+        GameEventsManager.instance.inputEvents.onInventoryPressed -= InventoryPressed;
+        GameEventsManager.instance.inputEvents.onClosePressed -= CloseInventory;
+    }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ToggleInventory(false);
-        }
+    void InventoryPressed()
+    {
+        ToggleInventory();
+    }
+
+    void CloseInventory()
+    {
+        ToggleInventory(false);
     }
 
     void ToggleInventory(bool? state = null)

@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -96,7 +95,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        // Прыжок
+        if(DialogueManager.instance.dialogueIsPlaying)
+            return;
+
         if (isGrounded)
         {
             if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины

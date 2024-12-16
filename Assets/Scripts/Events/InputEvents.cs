@@ -39,12 +39,21 @@ public class InputEvents
         }
     }
 
-    public event Action onQuestLogTogglePressed;
-    public void QuestLogTogglePressed()
+    public event Action onClosePressed;
+    public void ClosePressed()
     {
-        if (onQuestLogTogglePressed != null)
+        if (onClosePressed != null)
         {
-            onQuestLogTogglePressed();
+            onClosePressed();
+        }
+    }
+
+    public event Action onInventoryPressed;
+    public void InventoryPressed()
+    {
+        if (onInventoryPressed != null)
+        {
+            onInventoryPressed();
         }
     }
 }

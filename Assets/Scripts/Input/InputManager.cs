@@ -42,11 +42,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void QuestLogTogglePressed(InputAction.CallbackContext context)
+    public void InventoryPressed(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            GameEventsManager.instance.inputEvents.QuestLogTogglePressed();
+            GameEventsManager.instance.inputEvents.InventoryPressed();
+        }
+    }
+
+    public void ClosePressed(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            GameEventsManager.instance.inputEvents.ClosePressed();
         }
     }
 }

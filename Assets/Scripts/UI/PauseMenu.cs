@@ -8,17 +8,27 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     private bool isPaused = false;
 
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        GameEventsManager.instance.inputEvents.onClosePressed += PausePressed;
+    }
+
+    private void OnDestroy()
+    {
+        GameEventsManager.instance.inputEvents.onClosePressed -= PausePressed;
+    }
+
+    void PausePressed()
+    {
+        if (InventoryUI.Instance.isActive)
+            return;
+
+        if (isPaused) ResumeGame();
+        else
         {
-            if (isPaused) ResumeGame();
-            else
-            {
-                PauseGame();
-                InventoryUI.Instance.isActive = false;
-            }
+            PauseGame();
         }
+
     }
 
     public void ResumeGame()
