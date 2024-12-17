@@ -40,20 +40,22 @@ public class GameEventsManager : MonoBehaviour
 
     public void UpdateCursorState()
     {
-        cursorIsShown = InventoryUI.Instance.isActive ||
-                        DialogueManager.instance.dialogueIsPlaying ||
-                        PauseMenu.instance.isPaused;
+        bool shouldShowCursor = InventoryUI.Instance.isActive ||
+                                DialogueManager.instance.dialogueIsPlaying ||
+                                PauseMenu.instance.isPaused;
 
-        if (cursorIsShown == UnityEngine.Cursor.visible)
-            return;
+        if (shouldShowCursor != cursorIsShown)
+        {
+            cursorIsShown = shouldShowCursor;
 
-        if (cursorIsShown)
-        {
-            UnLockCursor();
-        }
-        else
-        {
-            LockCursor();
+            if (cursorIsShown)
+            {
+                UnLockCursor();
+            }
+            else
+            {
+                LockCursor();
+            }
         }
     }
 
