@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameEventsManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GameEventsManager : MonoBehaviour
     public MiscEvents miscEvents;
     public InputEvents inputEvents;
     public PlayerEvents playerEvents;
+
+    private bool cursorIsShown = false;
 
     private void Awake()
     {
@@ -24,8 +27,48 @@ public class GameEventsManager : MonoBehaviour
         // initialize all events
         inputEvents = new InputEvents();
         playerEvents = new PlayerEvents();
-        // goldEvents = new GoldEvents();
         miscEvents = new MiscEvents();
         questEvents = new QuestEvents();
+
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        LockCursor();
+
+        inputEvents.onInventoryPressed += ToggleCursor;
+        inputEvents.onClosePressed += ToggleCursor;
+        inputEvents.onInteractPressed += ToggleCursor;
+    }
+
+    void ToggleCursor()
+    {
+        cursorIsShown = InventoryUI.Instance.isActive ||
+                        DialogueManager.instance.dialogueIsPlaying ||
+                        PauseMenu.instance.isPaused;
+
+        if (cursorIsShown)
+        {
+            // UnLockCursor();
+            LockCursor();
+        }
+        else
+        {
+            UnLockCursor();
+            // LockCursor();
+        }
+    }
+
+    void LockCursor()
+    {
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    void UnLockCursor()
+    {
+        UnityEngine.Cursor.visible = true;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
 }
