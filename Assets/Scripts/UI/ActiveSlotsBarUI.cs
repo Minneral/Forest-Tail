@@ -8,6 +8,8 @@ public class ActiveSlotsBarUI : MonoBehaviour
     private Inventory _inventory;
     private InventorySlotUI[] _slotsUI;
     public int ActiveSlotIndex = 0;
+    public Sprite ActiveSlotImage;
+    public Sprite NormalSlotImage;
 
     private readonly Vector3 _normalScale = Vector3.one;
     private readonly Vector3 _activeScale = Vector3.one * 1.1f;
@@ -62,7 +64,7 @@ public class ActiveSlotsBarUI : MonoBehaviour
                 {
                     ActiveSlotIndex = i + 1;
                 }
-                UpdateSlotScales();
+                UpdateSlotIcon();
                 break;
             }
         }
@@ -82,6 +84,15 @@ public class ActiveSlotsBarUI : MonoBehaviour
         for (int i = slots.Length; i < _slotsUI.Length; i++)
         {
             _slotsUI[i].AssignItem(null);
+        }
+    }
+
+    private void UpdateSlotIcon()
+    {
+        for (int i = 0; i < _slotsUI.Length; i++)
+        {
+            var _img = _slotsUI[i].GetComponent<Image>();
+            _img.sprite = (i == ActiveSlotIndex - 1) ? ActiveSlotImage : NormalSlotImage;
         }
     }
 
