@@ -57,4 +57,12 @@ public class InputManager : MonoBehaviour
             GameEventsManager.instance.inputEvents.ClosePressed();
         }
     }
+
+    public void AttackPressed(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            GameEventsManager.instance.inputEvents.AttackPressed();
+        }
+    }
 }

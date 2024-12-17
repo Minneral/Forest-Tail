@@ -56,4 +56,13 @@ public class InputEvents
             onInventoryPressed();
         }
     }
+
+    public event Action onAttackPressed;
+    public void AttackPressed()
+    {
+        if (onAttackPressed != null)
+        {
+            onAttackPressed();
+        }
+    }
 }

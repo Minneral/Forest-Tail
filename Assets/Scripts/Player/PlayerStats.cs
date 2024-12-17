@@ -52,8 +52,11 @@ public class PlayerStats : MonoBehaviour
         _health = Mathf.Min(_health + amount, maxHealth);
     }
 
-    public void TakeStamina(int amount)
+    public bool TakeStamina(int amount)
     {
+        if (_stamina < amount)
+            return false;
+
         _stamina = Mathf.Max(_stamina - amount, 0);
 
         if (_staminaRegenerationCoroutine != null)
@@ -62,6 +65,7 @@ public class PlayerStats : MonoBehaviour
         }
 
         _staminaRegenerationCoroutine = StartCoroutine(StaminaRegenerationTimer());
+        return true;
     }
 
     public void RegenerateStamina(int amount)
