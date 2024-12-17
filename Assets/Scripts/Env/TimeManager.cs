@@ -20,7 +20,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] RectTransform dial;
     float initialDialRotation;
     [SerializeField] TimeSettings timeSettings;
-    public TimeManager Instance;
+    public TimeManager Instance { get; private set; }
 
     public event Action OnSunrise
     {
