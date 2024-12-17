@@ -98,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
         if(DialogueManager.instance.dialogueIsPlaying)
             return;
 
-        Debug.Log(isGrounded);
         if (isGrounded)
         {
             if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины

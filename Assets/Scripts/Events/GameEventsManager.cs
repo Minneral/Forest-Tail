@@ -30,43 +30,40 @@ public class GameEventsManager : MonoBehaviour
         miscEvents = new MiscEvents();
         questEvents = new QuestEvents();
 
-        Initialize();
-    }
-
-    void Initialize()
-    {
         LockCursor();
-
-        inputEvents.onInventoryPressed += ToggleCursor;
-        inputEvents.onClosePressed += ToggleCursor;
-        inputEvents.onInteractPressed += ToggleCursor;
     }
 
-    void ToggleCursor()
+    private void Update()
+    {
+        UpdateCursorState();
+    }
+
+    public void UpdateCursorState()
     {
         cursorIsShown = InventoryUI.Instance.isActive ||
                         DialogueManager.instance.dialogueIsPlaying ||
                         PauseMenu.instance.isPaused;
 
+        if (cursorIsShown == UnityEngine.Cursor.visible)
+            return;
+
         if (cursorIsShown)
         {
-            // UnLockCursor();
-            LockCursor();
+            UnLockCursor();
         }
         else
         {
-            UnLockCursor();
-            // LockCursor();
+            LockCursor();
         }
     }
 
-    void LockCursor()
+    public void LockCursor()
     {
         UnityEngine.Cursor.visible = false;
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void UnLockCursor()
+    public void UnLockCursor()
     {
         UnityEngine.Cursor.visible = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;

@@ -10,7 +10,7 @@ public class LoadingScreen : MonoBehaviour
     public TextMeshProUGUI progressText; // Текст для отображения процентов загрузки
 
     private void Start() {
-        LoadScene(3);
+        LoadScene(4);
     }
 
     // Метод для начала загрузки сцены
