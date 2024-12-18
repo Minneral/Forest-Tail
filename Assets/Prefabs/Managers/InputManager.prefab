@@ -170,6 +170,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b564f871-ed04-4cd0-bcdd-150cfc5c16cc
     m_ActionName: Gameplay/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8137284150213454289}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: DodgePressed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 05c22d5e-04db-4ae2-8cdf-e8cf601d908d
+    m_ActionName: Gameplay/Dodge[/Keyboard/leftAlt]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

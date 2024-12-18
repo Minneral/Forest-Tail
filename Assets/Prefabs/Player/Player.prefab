@@ -309,7 +309,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   pounchCost: 10
-  attackRange: 5
+  attackRange: 1
   attackDamage: 40
 --- !u!4 &5556835969525560982 stripped
 Transform:

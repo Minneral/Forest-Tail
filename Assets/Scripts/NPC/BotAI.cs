@@ -2,6 +2,7 @@ using System.Collections;
 using System.Net.Http.Headers;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class BotAI : MonoBehaviour
 {
@@ -42,7 +43,8 @@ public class BotAI : MonoBehaviour
         stats = GetComponent<NPCStats>();
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         GameEventsManager.instance.npcEvents.onNPCDeath -= Death;
     }
 
@@ -97,6 +99,10 @@ public class BotAI : MonoBehaviour
         StopAllCoroutines();
         agent.enabled = false;
         animator.SetTrigger("Death");
+
+        var healthBarService = GetComponentInChildren<HealthBarService>();
+        healthBarService.DestroyService();
+
         GetComponent<CapsuleCollider>().enabled = false;
         this.enabled = false;
     }

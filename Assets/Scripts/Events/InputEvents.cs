@@ -65,4 +65,13 @@ public class InputEvents
             onAttackPressed();
         }
     }
+
+    public event Action onDodgePressed;
+    public void DodgePressed()
+    {
+        if (onDodgePressed != null)
+        {
+            onDodgePressed();
+        }
+    }
 }

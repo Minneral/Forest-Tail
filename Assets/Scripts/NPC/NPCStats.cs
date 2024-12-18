@@ -14,13 +14,14 @@ public class NPCStats : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    private void OnDestroy() {
+    private void OnDestroy()
+    {
         GameEventsManager.instance.npcEvents.onNPCDeath -= Die;
     }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        currentHealth = Math.Max(currentHealth - damage, 0);
 
         Debug.Log("Текущее здоровье врага: " + currentHealth);
 

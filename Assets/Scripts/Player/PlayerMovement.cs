@@ -10,7 +10,6 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStats _stats;
     private InventoryUI _inventoryUI;
 
-
     Vector3 direction;
     private float speed;
     public float turnSmoothTime = 0.1f;  // Время для плавного поворота
@@ -18,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float walkSpeed = 1f; // Скорость ходьбы 
     public float runSpeed = 3f; // Скорость бега
+    public float dodgeDistance = 5f; // Дистанция отскока
+    public float dodgeDuration = 0.5f;
 
     public float groundDistance = 0.01f; // Радиус сферы для проверки касания с землей
     public LayerMask groundMask; // Маска для слоев земли
@@ -29,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     public int staminaCostPerSecond = 5; // Расход стамины за секунду бега
     public int jumpStaminaCost = 20; // Расход стамины за прыжок
+    public int dodgeStaminaCost = 15; // Расход стамины за отскок
 
     private float staminaUsage; // Счетчик для учета потраченной стамины
 
@@ -38,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         {
             GameEventsManager.instance.inputEvents.onMovePressed += MovePressed;
             GameEventsManager.instance.inputEvents.onJumpPressed += Jump;
+            GameEventsManager.instance.inputEvents.onDodgePressed += Dodge;
 
             _controller = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
@@ -72,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
     private void OnDestroy()
     {
         GameEventsManager.instance.inputEvents.onMovePressed -= MovePressed;
-            GameEventsManager.instance.inputEvents.onJumpPressed -= Jump;
+        GameEventsManager.instance.inputEvents.onJumpPressed -= Jump;
+        GameEventsManager.instance.inputEvents.onDodgePressed -= Dodge;
         // GameEventsManager.instance.playerEvents.onDisablePlayerMovement += DisablePlayerMovement;
         // GameEventsManager.instance.playerEvents.onEnablePlayerMovement += EnablePlayerMovement;
     }
@@ -95,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if(DialogueManager.instance.dialogueIsPlaying)
+        if (DialogueManager.instance.dialogueIsPlaying)
             return;
 
         if (isGrounded)
@@ -106,6 +110,31 @@ public class PlayerMovement : MonoBehaviour
                 _animator.SetTrigger("Jumping");
                 _stats.TakeStamina(jumpStaminaCost); // Снимаем стамину за прыжок
             }
+        }
+    }
+
+    void Dodge()
+    {
+        if (DialogueManager.instance.dialogueIsPlaying || !isGrounded || _stats.GetStamina() < dodgeStaminaCost)
+            return;
+
+        _animator.SetTrigger("Dodge");
+        _stats.TakeStamina(dodgeStaminaCost); // Снимаем стамину за отскок
+
+        // Расчет отскока назад
+        Vector3 dodgeDirection = -transform.forward * dodgeDistance;
+        StartCoroutine(PerformDodge(dodgeDirection));
+    }
+
+    private IEnumerator PerformDodge(Vector3 dodgeDirection)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < dodgeDuration)
+        {
+            _controller.Move(dodgeDirection * (Time.deltaTime / dodgeDuration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
     }
 
@@ -180,5 +209,4 @@ public class PlayerMovement : MonoBehaviour
 
         _controller.Move(Vector3.zero);
     }
-
 }
