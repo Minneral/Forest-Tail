@@ -61,60 +61,50 @@ public class QuestPanelUI : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void Start()
     {
-        GameEventsManager.instance.inputEvents.onQuestMenuPressed += ToggleMenu;
+        GameEventsManager.instance.inputEvents.onQuestMenuPressed += QuestMenuPressed;
         GameEventsManager.instance.inputEvents.onClosePressed += CloseMenu;
 
     }
 
     private void OnDisable()
     {
-        GameEventsManager.instance.inputEvents.onQuestMenuPressed -= ToggleMenu;
+        GameEventsManager.instance.inputEvents.onQuestMenuPressed -= QuestMenuPressed;
         GameEventsManager.instance.inputEvents.onClosePressed -= CloseMenu;
 
     }
 
-    void ToggleMenu()
+    void QuestMenuPressed()
     {
-        isActive = !isActive;
-
-        if (isActive)
-        {
-            OpenMenu();
-        }
-        else
-        {
-            CloseMenu();
-        }
-    }
-
-    void OpenMenu()
-    {
-        if (PauseMenu.instance.isPaused ||
-            InventoryUI.Instance.isActive ||
-            DialogueManager.instance.dialogueIsPlaying)
+        if (GameEventsManager.instance.IsAnyUIVisible(typeof(QuestPanelUI)))
             return;
 
-        GameEventsManager.instance.UnLockCursor();
+        ToggleMenu();
+    }
 
-        isActive = true;
+    void ToggleMenu(bool? state = null)
+    {
+        if (state == null)
+            isActive = !isActive;
+        else
+            isActive = System.Convert.ToBoolean(state);
+
+
         hub.SetActive(isActive);
     }
 
     void CloseMenu()
     {
-        GameEventsManager.instance.LockCursor();
-
-        isActive = false;
-        hub.SetActive(isActive);
+        ToggleMenu(false);
     }
+
 
     void Update()
     {
         if (!isActive)
             return;
-
+        
         var completedQuests = QuestManager.instance.GetCompletedQuests();
         var inProgressQuests = QuestManager.instance.GetInProgressQuests();
 

@@ -99,9 +99,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (DialogueManager.instance.dialogueIsPlaying)
-            return;
-
         if (isGrounded)
         {
             if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины
@@ -115,9 +112,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Dodge()
     {
-        if (DialogueManager.instance.dialogueIsPlaying || !isGrounded || _stats.GetStamina() < dodgeStaminaCost)
-            return;
-
         _animator.SetTrigger("Dodge");
         _stats.TakeStamina(dodgeStaminaCost); // Снимаем стамину за отскок
 

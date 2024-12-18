@@ -55,9 +55,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Attack()
     {
-        if (PauseMenu.instance.isPaused || InventoryUI.Instance.isActive || DialogueManager.instance.dialogueIsPlaying)
-            return;
-
         if (canAttack && _stats.TakeStamina(pounchCost))
         {
             canAttack = false;

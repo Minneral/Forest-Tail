@@ -17,6 +17,9 @@ public class InputEvents
     {
         if (onJumpPressed != null)
         {
+            if (GameEventsManager.instance.IsAnyUIVisible())
+                return;
+
             onJumpPressed();
         }
     }
@@ -26,6 +29,9 @@ public class InputEvents
     {
         if (onInteractPressed != null)
         {
+            if (GameEventsManager.instance.IsAnyUIVisible())
+                return;
+
             onInteractPressed();
         }
     }
@@ -62,6 +68,9 @@ public class InputEvents
     {
         if (onAttackPressed != null)
         {
+            if (GameEventsManager.instance.IsAnyUIVisible())
+                return;
+
             onAttackPressed();
         }
     }
@@ -71,6 +80,9 @@ public class InputEvents
     {
         if (onDodgePressed != null)
         {
+            if (GameEventsManager.instance.IsAnyUIVisible())
+                return;
+
             onDodgePressed();
         }
     }

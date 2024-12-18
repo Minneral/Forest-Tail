@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -42,9 +43,7 @@ public class GameEventsManager : MonoBehaviour
 
     public void UpdateCursorState()
     {
-        bool shouldShowCursor = InventoryUI.Instance.isActive ||
-                                DialogueManager.instance.dialogueIsPlaying ||
-                                PauseMenu.instance.isPaused;
+        bool shouldShowCursor = IsAnyUIVisible();
 
         if (shouldShowCursor != cursorIsShown)
         {
@@ -72,4 +71,15 @@ public class GameEventsManager : MonoBehaviour
         UnityEngine.Cursor.visible = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
+
+    public bool IsAnyUIVisible(params Type[] excludedTypes)
+    {
+        bool IsExcluded<T>(T instance) => excludedTypes.Contains(typeof(T));
+
+        return (!IsExcluded(InventoryUI.Instance) && InventoryUI.Instance.isActive) ||
+               (!IsExcluded(DialogueManager.instance) && DialogueManager.instance.dialogueIsPlaying) ||
+               (!IsExcluded(PauseMenu.instance) && PauseMenu.instance.isPaused) ||
+               (!IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.isActive);
+    }
+
 }

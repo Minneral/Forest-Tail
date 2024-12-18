@@ -57,9 +57,9 @@ public class InventoryUI : MonoBehaviour
 
     void InventoryPressed()
     {
-        if (PauseMenu.instance.isPaused)
+        if (GameEventsManager.instance.IsAnyUIVisible(typeof(InventoryUI)))
             return;
-            
+
         ToggleInventory();
     }
 
@@ -70,17 +70,11 @@ public class InventoryUI : MonoBehaviour
 
     void ToggleInventory(bool? state = null)
     {
-        if (DialogueManager.instance.dialoguePanel.activeSelf)
-        {
-            isActive = false;
-        }
+        if (state == null)
+            isActive = !isActive;
         else
-        {
-            if (state == null)
-                isActive = !isActive;
-            else
-                isActive = Convert.ToBoolean(state);
-        }
+            isActive = Convert.ToBoolean(state);
+
 
         _background.SetActive(isActive);
         _inventory.SetActive(isActive);

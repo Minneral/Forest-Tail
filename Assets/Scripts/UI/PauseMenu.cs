@@ -35,7 +35,9 @@ public class PauseMenu : MonoBehaviour
 
     void PausePressed()
     {
-        if (InventoryUI.Instance.isActive)
+        // Dont forget to set Script Execution Order!
+        // And don't use subscribe in onEnable method
+        if (GameEventsManager.instance.IsAnyUIVisible(typeof(PauseMenu), typeof(DialogueManager)))
             return;
 
         if (isPaused) ResumeGame();
