@@ -17,7 +17,7 @@ public class PlayerCombat : MonoBehaviour
     private float attackCoolDown = 1;
     public float attackRange = 5f;   // Радиус атаки
     public int attackDamage = 20;      // Урон от атаки
-    
+
 
 
     public bool canAttack { get; private set; }
@@ -69,10 +69,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 NPCStats foe = enemy.GetComponent<NPCStats>();
 
-                if (!foe.isDead)
-                {
-                    foe.TakeDamage(attackDamage);
-                }
+                foe.TakeDamage(attackDamage);
             }
 
             StartCoroutine(ResetAttackWithDelay(attackCoolDown));

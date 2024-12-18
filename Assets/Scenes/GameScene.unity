@@ -108,7 +108,7 @@ NavMeshSettings:
     agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.02
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -121,7 +121,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 53a957c79d3fe514797091dd157f9abe, type: 2}
 --- !u!1 &72225276
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!23 &215016261
 MeshRenderer:
@@ -1700,6 +1700,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
+--- !u!1001 &1190255160027859534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.3327436
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.144
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.7323122
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1293605629414157143, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925323869617222125, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_Name
+      value: goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559985819304094621, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559985819304094621, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559985819304094621, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7714491427332729453, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1744955908}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c9bf8fc744c7e44780f50532a448c04, type: 3}
 --- !u!1001 &2238831306518734129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3978,3 +4051,4 @@ SceneRoots:
   - {fileID: 2423815884780104802}
   - {fileID: 8319635874634403483}
   - {fileID: 523817221}
+  - {fileID: 1190255160027859534}
