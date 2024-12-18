@@ -43,7 +43,7 @@ public class BotAI : MonoBehaviour
         stats = GetComponent<NPCStats>();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         GameEventsManager.instance.npcEvents.onNPCDeath -= Death;
     }
@@ -96,6 +96,9 @@ public class BotAI : MonoBehaviour
 
     void Death()
     {
+        if (stats.GetHealth() > 0)
+            return;
+
         StopAllCoroutines();
         agent.enabled = false;
         animator.SetTrigger("Death");

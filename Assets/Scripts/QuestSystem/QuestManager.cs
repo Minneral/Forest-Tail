@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class QuestManager : MonoBehaviour
@@ -12,9 +13,20 @@ public class QuestManager : MonoBehaviour
     // quest start requirements
     private int currentPlayerLevel = 1;
 
+    public static QuestManager instance;
+
     private void Awake()
     {
         questMap = CreateQuestMap();
+
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     private void OnEnable()
@@ -41,7 +53,7 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        
+
         foreach (Quest quest in questMap.Values)
         {
             // initialize any loaded quest steps
@@ -102,7 +114,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    private void StartQuest(string id) 
+    private void StartQuest(string id)
     {
         Quest quest = GetQuestById(id);
         quest.InstantiateCurrentQuestStep(this.transform);
@@ -185,7 +197,7 @@ public class QuestManager : MonoBehaviour
 
     private void SaveQuest(Quest quest)
     {
-        try 
+        try
         {
             QuestData questData = quest.GetQuestData();
             // serialize using JsonUtility, but use whatever you want here (like JSON.NET)
@@ -204,7 +216,7 @@ public class QuestManager : MonoBehaviour
     private Quest LoadQuest(QuestInfoSO questInfo)
     {
         Quest quest = null;
-        try 
+        try
         {
             // load quest from saved data
             // REmove false flag!!!!!!!
@@ -215,7 +227,7 @@ public class QuestManager : MonoBehaviour
                 quest = new Quest(questInfo, questData.state, questData.questStepIndex, questData.questStepStates);
             }
             // otherwise, initialize a new quest
-            else 
+            else
             {
                 quest = new Quest(questInfo);
             }
@@ -225,5 +237,20 @@ public class QuestManager : MonoBehaviour
             Debug.LogError("Failed to load quest with id " + quest.info.id + ": " + e);
         }
         return quest;
+    }
+
+    public List<Quest> GetAllQuests()
+    {
+        return questMap.Values.ToList<Quest>();
+    }
+
+    public List<Quest> GetCompletedQuests()
+    {
+        return questMap.Values.Where<Quest>(q => (q.state == QuestState.FINISHED) || (q.state == QuestState.CAN_FINISH)).ToList<Quest>();
+    }
+
+    public List<Quest> GetInProgressQuests()
+    {
+        return questMap.Values.Where<Quest>(q => q.state == QuestState.IN_PROGRESS).ToList<Quest>();
     }
 }

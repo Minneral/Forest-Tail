@@ -10,11 +10,15 @@ public class NPCStats : MonoBehaviour
 
     void Start()
     {
-        GameEventsManager.instance.npcEvents.onNPCDeath += Die;
         currentHealth = maxHealth;
     }
 
-    private void OnDestroy()
+    private void OnEnable()
+    {
+        GameEventsManager.instance.npcEvents.onNPCDeath += Die;
+    }
+
+    private void OnDisable()
     {
         GameEventsManager.instance.npcEvents.onNPCDeath -= Die;
     }

@@ -74,4 +74,13 @@ public class InputEvents
             onDodgePressed();
         }
     }
+
+    public event Action onQuestMenuPressed;
+    public void QuestMenuPressed()
+    {
+        if (onQuestMenuPressed != null)
+        {
+            onQuestMenuPressed();
+        }
+    }
 }

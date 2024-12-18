@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9bfb0d26937c03b4fb228ead303d8af2, type: 3}
-  m_Name: CollectApplesQuest
+  m_Name: KillGoblinsQuest
   m_EditorClassIdentifier: 
-  <id>k__BackingField: CollectApplesQuest
-  displayName: Collect 2 apples
-  description: 
+  <id>k__BackingField: KillGoblinsQuest
+  displayName: Warrior
+  description: Kill 2 Goblins
   levelRequirement: 0
   questPrerequisites: []
   questStepPrefabs:
-  - {fileID: 8181718281022073245, guid: 73d6d8bd2de9160499d930058fe7c90b, type: 3}
-  - {fileID: 8181718281022073245, guid: 73d6d8bd2de9160499d930058fe7c90b, type: 3}
-  goldReward: 50
-  experienceReward: 250
+  - {fileID: 8721508932210966555, guid: 3d0cd47198f29bb439f78b3b4334f2e9, type: 3}
+  goldReward: 0
+  experienceReward: 0

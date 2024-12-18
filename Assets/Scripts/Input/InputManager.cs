@@ -66,11 +66,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
-        public void DodgePressed(InputAction.CallbackContext context)
+    public void DodgePressed(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             GameEventsManager.instance.inputEvents.DodgePressed();
+        }
+    }
+
+    public void QuestMenuPressed(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            GameEventsManager.instance.inputEvents.QuestMenuPressed();
         }
     }
 }
