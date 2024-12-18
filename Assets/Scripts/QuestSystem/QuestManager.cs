@@ -149,8 +149,8 @@ public class QuestManager : MonoBehaviour
 
     private void ClaimRewards(Quest quest)
     {
-        // GameEventsManager.instance.goldEvents.GoldGained(quest.info.goldReward);
-        // GameEventsManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+        if (quest.info.rewardPrefab != null)
+            quest.info.rewardPrefab.GetComponent<QuestReward>()?.Execute();
     }
 
     private void QuestStepStateChange(string id, int stepIndex, QuestStepState questStepState)

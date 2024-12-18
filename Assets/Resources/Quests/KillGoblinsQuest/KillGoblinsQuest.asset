@@ -21,5 +21,6 @@ MonoBehaviour:
   questPrerequisites: []
   questStepPrefabs:
   - {fileID: 8721508932210966555, guid: 3d0cd47198f29bb439f78b3b4334f2e9, type: 3}
+  rewardPrefab: {fileID: 4601931786260117256, guid: 495472dd8cf06e745b9d7387bcfc9e0a, type: 3}
   goldReward: 0
   experienceReward: 0
