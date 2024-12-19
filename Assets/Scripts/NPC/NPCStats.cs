@@ -27,8 +27,6 @@ public class NPCStats : MonoBehaviour
     {
         currentHealth = Math.Max(currentHealth - damage, 0);
 
-        Debug.Log("Текущее здоровье врага: " + currentHealth);
-
         if (currentHealth <= 0)
         {
             GameEventsManager.instance.npcEvents.NPCDeath();
@@ -37,7 +35,6 @@ public class NPCStats : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Враг умер.");
     }
 
     public float GetHealth()

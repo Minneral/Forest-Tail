@@ -1,8 +1,8 @@
 -> main
 
 === main ===
-Hello, my name is Chloe # speaker: Chloe
-Hi Chloe, I'm Yaroslav. What is your favorite color? # speaker: Yaroslav
+Hello, my name is Chloe # speaker:Chloe #portrait:chloe_default
+Hi Chloe, I'm Yaroslav. What is your favorite color? # speaker:Yaroslav #portrait:player_default
     * [Red]
         -> color("Red")
     * [Green]
@@ -13,10 +13,10 @@ Hi Chloe, I'm Yaroslav. What is your favorite color? # speaker: Yaroslav
 
 
 === color(val) ===
-{val} is a very nice color! # speaker: Yaroslav
+{val} is a very nice color! # speaker:Yaroslav #portrait:player_default
 -> leave("Chloe")
 
 === leave(name) ===
-Sorry, I need to leave you. # speaker: {name}
-Bye then! # speaker: Yaroslav
+Sorry, I need to leave you. # speaker:{name} #portrait:{name}_default
+Bye then! # speaker: Yaroslav #portrait:player_default
 -> END

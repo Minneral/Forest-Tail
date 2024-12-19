@@ -96,20 +96,25 @@ public class BotAI : MonoBehaviour
 
     void Death()
     {
-        if (stats.GetHealth() > 0)
-            return;
+        if (stats.GetHealth() > 0) return;
 
         StopAllCoroutines();
+        StartCoroutine(DeathCoroutine());
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        yield return null; // Подождите до следующего кадра
+
         agent.enabled = false;
         animator.SetTrigger("Death");
 
         var healthBarService = GetComponentInChildren<HealthBarService>();
         healthBarService.DestroyService();
-
+        
         GetComponent<CapsuleCollider>().enabled = false;
-        this.enabled = false;
+        this.enabled = false; // Выключите скрипт
     }
-
 
     void Patrol()
     {
