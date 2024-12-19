@@ -4,12 +4,14 @@ using UnityEngine;
 using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
-using UnityEditor.Animations;
 
 public class DialogueManager : MonoBehaviour
 {
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.04f;
+
+    [Header("Load Globals JSON")]
+    [SerializeField] private TextAsset loadGlobalsJSON;
 
     [Header("Dialogue UI")]
     [SerializeField] public GameObject dialoguePanel;
@@ -17,8 +19,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private TextMeshProUGUI displayNameText;
     [SerializeField] private Animator portraitAnimator;
-
-
 
     [Header("Choices UI")]
     [SerializeField] private GameObject[] choices;
@@ -37,6 +37,7 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
 
+    private DialogueVariables dialogueVariables;
 
     private void Awake()
     {
@@ -45,6 +46,8 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning("Found more than one Dialogue Manager in the scene");
         }
         instance = this;
+
+        dialogueVariables = new DialogueVariables(loadGlobalsJSON);
     }
 
     private void Start()
@@ -93,6 +96,8 @@ public class DialogueManager : MonoBehaviour
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
 
+        dialogueVariables.StartListening(currentStory);
+
         // reset portrait, layout, and speaker
         displayNameText.text = "???";
 
@@ -102,6 +107,8 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.2f);
+
+        dialogueVariables.StopListening(currentStory);
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
@@ -238,17 +245,17 @@ public class DialogueManager : MonoBehaviour
         {
             choices[i].gameObject.SetActive(false);
         }
-        // StartCoroutine(SelectFirstChoice());
+        StartCoroutine(SelectFirstChoice());
     }
 
-    // private IEnumerator SelectFirstChoice()
-    // {
-    //     // Event System requires we clear it first, then wait
-    //     // for at least one frame before we set the current selected object.
-    //     EventSystem.current.SetSelectedGameObject(null);
-    //     yield return new WaitForEndOfFrame();
-    //     EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
-    // }
+    private IEnumerator SelectFirstChoice()
+    {
+        // Event System requires we clear it first, then wait
+        // for at least one frame before we set the current selected object.
+        EventSystem.current.SetSelectedGameObject(null);
+        yield return new WaitForEndOfFrame();
+        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+    }
 
     public void MakeChoice(int choiceIndex)
     {
@@ -260,5 +267,23 @@ public class DialogueManager : MonoBehaviour
             // InputManager.GetInstance().RegisterSubmitPressed(); // this is specific to my InputManager script
             ContinueStory();
         }
+    }
+
+    public Ink.Runtime.Object GetVariableState(string variableName)
+    {
+        Ink.Runtime.Object variableValue = null;
+        dialogueVariables.variables.TryGetValue(variableName, out variableValue);
+        if (variableValue == null)
+        {
+            Debug.LogWarning("Ink Variable was found to be null: " + variableName);
+        }
+        return variableValue;
+    }
+
+    // This method will get called anytime the application exits.
+    // Depending on your game, you may want to save variable state in other places.
+    public void OnApplicationQuit()
+    {
+        dialogueVariables.SaveVariables();
     }
 }
