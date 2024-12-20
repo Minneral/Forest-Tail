@@ -135,6 +135,12 @@ public class DialogueManager : MonoBehaviour
             {
                 StartCoroutine(ExitDialogueMode());
             }
+            // handle case when dialogue line is empty
+            if(nextLine.Equals(""))
+            {
+                ContinueStory();
+                return;
+            }
             // otherwise, handle the normal case for continuing the story
             else
             {

@@ -19,8 +19,11 @@ VAR talking = false
 === UnifiedChoices ===
     {bogomir_quest_completed == false && bogomir_quest_assigned == false:
         * [Нужна ли вам помощь?]
-            Слыхал неспокойное у вас тут место, быть может нужно помочь вам? #speaker:{player_name} #portrait:player_default
+            Слыхал неспокойное у вас тут место, быть может нужна помощь? #speaker:{player_name} #portrait:player_default
             Да, тут ты прав! Недавно гоблины в округе объявились, да жить не дают. Помоги избавиться от них, а я уж в долге не останусь. #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
+            Добро, я посмотрю что можно будет сделать. Только расскажи, где в последний раз их видел #speaker:{player_name} #portrait:player_default
+            Видел как из деревни убегали со стороны второго входа. Вроде на первом перекрестке повернули налево. Они вряд ли далеко ушли #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
+            Что ж, пойду осмотрюсь #speaker:{player_name} #portrait:player_default
             -> UnifiedChoices
     - else:
         {bogomir_quest_completed == true && bogomir_quest_finished == false:
@@ -34,4 +37,5 @@ VAR talking = false
         Ох, было бы чего рассказывать. Сидим у черта на куличиках, да живем от зимы к зиме. Единственное что, наверное, лес у нас красивый. #speaker:{npc} #portrait:{npc_portrait}
         -> UnifiedChoices
     * До скорого #speaker:{player_name} #portrait:player_default
+        Удачи тебе #speaker:{npc} #portrait:{npc_portrait}
         -> END

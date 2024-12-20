@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (var slot in slots)
         {
-            if (slot.item != null && slot.item.type == newItem.type && slot.item.name == newItem.name)
+            if (slot.item != null && slot.item.itemId == newItem.itemId)
             {
                 if (newItem.stackAmount > 1 && slot.amount < newItem.stackAmount)
                 {
@@ -55,6 +55,24 @@ public class Inventory : MonoBehaviour
         foreach (var slot in slots)
         {
             if (slot.item != null && slot.item.type == itemToRemove.type && slot.item.name == itemToRemove.name)
+            {
+                slot.amount--;
+                if (slot.amount <= 0)
+                {
+                    slot.item = null;
+                    slot.amount = 0;
+                }
+                return true;
+            }
+        }
+        return false; // Item not found
+    }
+
+        public bool RemoveItem(string itemId)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null && slot.item.itemId == itemId)
             {
                 slot.amount--;
                 if (slot.amount <= 0)
