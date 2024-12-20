@@ -21,6 +21,9 @@ public class QuestInfoSO : ScriptableObject
     [Header("Rewards")]
     public GameObject rewardPrefab;
 
+    [Header("Optional")]
+    public string NPCAssignerName;
+
     // ensure the id is always the name of the Scriptable Object asset
     private void OnValidate()
     {

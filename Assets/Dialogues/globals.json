@@ -1,1 +1,1 @@
-﻿{"inkVersion":21,"root":[[["done",{"#f":5,"#n":"g-0"}],null],"done",{"global decl":["ev",false,{"VAR=":"talked"},"/ev","end",null],"#f":1}],"listDefs":{}}
+﻿{"inkVersion":21,"root":[[["done",{"#f":5,"#n":"g-0"}],null],"done",{"global decl":["ev","str","^Ярослав","/str",{"VAR=":"player_name"},false,{"VAR=":"bogomir_quest_assigned"},false,{"VAR=":"bogomir_quest_completed"},false,{"VAR=":"bogomir_quest_finished"},"/ev","end",null],"#f":1}],"listDefs":{}}

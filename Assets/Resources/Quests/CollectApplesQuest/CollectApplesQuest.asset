@@ -21,3 +21,4 @@ MonoBehaviour:
   - {fileID: 8181718281022073245, guid: 73d6d8bd2de9160499d930058fe7c90b, type: 3}
   - {fileID: 8181718281022073245, guid: 73d6d8bd2de9160499d930058fe7c90b, type: 3}
   rewardPrefab: {fileID: 0}
+  NPCAssignerName: 

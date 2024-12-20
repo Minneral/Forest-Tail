@@ -119,6 +119,7 @@ public class QuestManager : MonoBehaviour
         Quest quest = GetQuestById(id);
         quest.InstantiateCurrentQuestStep(this.transform);
         ChangeQuestState(quest.info.id, QuestState.IN_PROGRESS);
+        DialogueManager.instance.UpdateVariable(quest.info.NPCAssignerName + "_quest_assigned", true);
     }
 
     private void AdvanceQuest(string id)
@@ -137,6 +138,7 @@ public class QuestManager : MonoBehaviour
         else
         {
             ChangeQuestState(quest.info.id, QuestState.CAN_FINISH);
+            DialogueManager.instance.UpdateVariable(quest.info.NPCAssignerName + "_quest_completed", true);
         }
     }
 
@@ -145,6 +147,7 @@ public class QuestManager : MonoBehaviour
         Quest quest = GetQuestById(id);
         ClaimRewards(quest);
         ChangeQuestState(quest.info.id, QuestState.FINISHED);
+        DialogueManager.instance.UpdateVariable(quest.info.NPCAssignerName + "_quest_finished", true);
     }
 
     private void ClaimRewards(Quest quest)

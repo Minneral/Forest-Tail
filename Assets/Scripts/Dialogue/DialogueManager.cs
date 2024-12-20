@@ -38,6 +38,7 @@ public class DialogueManager : MonoBehaviour
 
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
+    private const string QUEST_TAG = "quest";
 
     private DialogueVariables dialogueVariables;
 
@@ -218,6 +219,9 @@ public class DialogueManager : MonoBehaviour
                 case PORTRAIT_TAG:
                     portraitAnimator.Play(tagValue.ToLower());
                     break;
+                case QUEST_TAG:
+                    GameEventsManager.instance.npcEvents.NPCQuestAssign(tagValue);
+                    break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
@@ -277,6 +281,7 @@ public class DialogueManager : MonoBehaviour
     {
         Ink.Runtime.Object variableValue = null;
         dialogueVariables.variables.TryGetValue(variableName, out variableValue);
+        // dialogueVariables.variables.set
         if (variableValue == null)
         {
             Debug.LogWarning("Ink Variable was found to be null: " + variableName);
@@ -286,6 +291,12 @@ public class DialogueManager : MonoBehaviour
 
     // This method will get called anytime the application exits.
     // Depending on your game, you may want to save variable state in other places.
+
+    public void UpdateVariable(string variable_name, bool value)
+    {
+        dialogueVariables.UpdateVariable(variable_name, new Ink.Runtime.BoolValue(value));
+    }
+    
     public void OnApplicationQuit()
     {
         dialogueVariables.SaveVariables();

@@ -15,8 +15,6 @@ public class QuestPoint : MonoBehaviour
     [Header("Quest Assignment")]
     [SerializeField] private bool assignByDialogue = true;
     [SerializeField] private bool assignBySubmit = true;
-    [SerializeField] private string NPCName = "";
-
 
     private bool playerIsNear = false;
     private string questId;
@@ -34,14 +32,14 @@ public class QuestPoint : MonoBehaviour
     {
         GameEventsManager.instance.questEvents.onQuestStateChange += QuestStateChange;
         GameEventsManager.instance.inputEvents.onSubmitPressed += QuestAssignBySubmit;
-        GameEventsManager.instance.npcEvents.onNPCTalked += QuestAssignByDialogue;
+        GameEventsManager.instance.npcEvents.onNPCQuestAssign += QuestAssignByDialogue;
     }
 
     private void OnDisable()
     {
         GameEventsManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
         GameEventsManager.instance.inputEvents.onSubmitPressed -= QuestAssignBySubmit;
-        GameEventsManager.instance.npcEvents.onNPCTalked -= QuestAssignByDialogue;
+        GameEventsManager.instance.npcEvents.onNPCQuestAssign -= QuestAssignByDialogue;
     }
 
     void QuestAssignBySubmit()
@@ -56,7 +54,7 @@ public class QuestPoint : MonoBehaviour
     {
         if (!assignBySubmit && assignByDialogue)
         {
-            if (npcName == this.NPCName)
+            if (npcName.ToLower() == questInfoForPoint.NPCAssignerName.ToLower())
                 QuestAssignPerform();
         }
     }

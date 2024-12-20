@@ -930,6 +930,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3144380373503397694, guid: ad68cd6d8def432458126b2617deaa17, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1576422022}
+    - target: {fileID: 3144380373503397694, guid: ad68cd6d8def432458126b2617deaa17, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MakeChoice
+      objectReference: {fileID: 0}
+    - target: {fileID: 3144380373503397694, guid: ad68cd6d8def432458126b2617deaa17, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3165509435618173465, guid: ad68cd6d8def432458126b2617deaa17, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2498,7 +2510,6 @@ MonoBehaviour:
   finishPoint: 1
   assignByDialogue: 0
   assignBySubmit: 1
-  NPCName: 
 --- !u!65 &1008500370
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2826,6 +2837,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1965515008}
     - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
+      propertyPath: choices.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
       propertyPath: choices.Array.data[0]
       value: 
       objectReference: {fileID: 329608524}
@@ -2837,6 +2852,10 @@ PrefabInstance:
       propertyPath: choices.Array.data[2]
       value: 
       objectReference: {fileID: 329608522}
+    - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
+      propertyPath: choices.Array.data[3]
+      value: 
+      objectReference: {fileID: 1896529910}
     - target: {fileID: 1511391766049037220, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 461.5
@@ -3074,6 +3093,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2924578065687579405, guid: f24a6bcef8b0b174ca6a926e581ebb10, type: 3}
   m_PrefabInstance: {fileID: 1946409708}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1896529910 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7872852106699356746, guid: ad68cd6d8def432458126b2617deaa17, type: 3}
+  m_PrefabInstance: {fileID: 329608520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1946409708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3190,8 +3214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62f279c4bbb49943ac439a346fb357f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJSON: {fileID: 4900000, guid: ff7c00daabcb8384cab2d29bf391ccb4, type: 3}
-  npcName: Chloe
+  inkJSON: {fileID: 4900000, guid: 6841fd531ca7d7a459051b8de627a070, type: 3}
+  npcName: bogomir
 --- !u!65 &2072256652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3296,7 +3320,6 @@ MonoBehaviour:
   finishPoint: 1
   assignByDialogue: 1
   assignBySubmit: 0
-  NPCName: Chloe
 --- !u!108 &2140187563 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 5508513181496591454, guid: 9ca60b239720ffc46834a1148e788455, type: 3}

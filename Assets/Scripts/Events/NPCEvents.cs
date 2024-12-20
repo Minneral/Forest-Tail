@@ -19,4 +19,13 @@ public class NPCEvents
             onNPCTalked(npcName);
         }
     }
+
+    public event Action<string> onNPCQuestAssign;
+    public void NPCQuestAssign(string npcName)
+    {
+        if (onNPCQuestAssign != null)
+        {
+            onNPCQuestAssign(npcName);
+        }
+    }
 }
