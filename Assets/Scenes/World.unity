@@ -4320,6 +4320,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6879299931069563707, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
       propertyPath: maxStamina
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6879299931069563707, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
+      propertyPath: staminaRegenerateValue
       value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -5906,8 +5910,22 @@ MonoBehaviour:
   questInfoForPoint: {fileID: 11400000, guid: a907a372e3ea916418d0c6169a5d648e, type: 2}
   startPoint: 1
   finishPoint: 1
-  assignByDialogue: 0
-  assignBySubmit: 1
+  assignByDialogue: 1
+  assignBySubmit: 0
+--- !u!114 &689871686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689871679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62f279c4bbb49943ac439a346fb357f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inkJSON: {fileID: 4900000, guid: 3b58ca522df7a394db7ff02c8bfbe316, type: 3}
+  npcName: zaslava
 --- !u!1 &709051145
 GameObject:
   m_ObjectHideFlags: 0
@@ -11994,6 +12012,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 32e8b022da3e1124e89a6a071df4f44f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 689871683}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 32e8b022da3e1124e89a6a071df4f44f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 689871686}
   m_SourcePrefab: {fileID: 100100000, guid: 32e8b022da3e1124e89a6a071df4f44f, type: 3}
 --- !u!1 &1992401429
 GameObject:
