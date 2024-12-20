@@ -54,6 +54,9 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     void PickUp()
     {
+        if(item.itemId == "Mushroom")
+            GameEventsManager.instance.miscEvents.MushroomCollected();
+            
         if (_inventory.AddItem(item))
         {
             Destroy(gameObject);

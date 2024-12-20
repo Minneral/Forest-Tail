@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item", order = 0)]
 public class Item : ScriptableObject
 {
+    public string itemId {get; private set;}
     [Header("General Settings")]
     public ItemType type;
     public string itemName = "Item";
@@ -18,6 +19,13 @@ public class Item : ScriptableObject
     public int damage; // Урон
     public float attackSpeed; // Скорость атаки
     public int defenseValue; // Защита
+    private void OnValidate()
+    {
+        #if UNITY_EDITOR
+        itemId = this.name;
+        UnityEditor.EditorUtility.SetDirty(this);
+        #endif
+    }
 }
 
 public enum ItemType

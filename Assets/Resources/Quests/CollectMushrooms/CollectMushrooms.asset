@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bfb0d26937c03b4fb228ead303d8af2, type: 3}
+  m_Name: CollectMushrooms
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: CollectMushrooms
+  displayName: "\u0421\u0431\u043E\u0440 \u0433\u0440\u0438\u0431\u043E\u043A"
+  description: "\u041D\u0430\u0439\u0434\u0438 \u0432 \u043B\u0435\u0441\u0443 \u0438
+    \u0441\u043E\u0431\u0435\u0440\u0438 6 \u0433\u0440\u0438\u0431\u043E\u0432"
+  levelRequirement: 0
+  questPrerequisites: []
+  questStepPrefabs:
+  - {fileID: 120301859911019212, guid: 52d1c3fad65eca8458e409d71e6bb76f, type: 3}
+  rewardPrefab: {fileID: 120301859911019212, guid: 043c8abb0391ebd42bb4394d54e9ba07, type: 3}
+  NPCAssignerName: zaslava

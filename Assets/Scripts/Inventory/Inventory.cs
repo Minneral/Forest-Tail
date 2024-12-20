@@ -50,6 +50,24 @@ public class Inventory : MonoBehaviour
         return false; // Inventory is full
     }
 
+    public bool RemoveItem(Item itemToRemove)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null && slot.item.type == itemToRemove.type && slot.item.name == itemToRemove.name)
+            {
+                slot.amount--;
+                if (slot.amount <= 0)
+                {
+                    slot.item = null;
+                    slot.amount = 0;
+                }
+                return true;
+            }
+        }
+        return false; // Item not found
+    }
+
     public void DisplayInventory()
     {
         foreach (var slot in slots)
@@ -94,6 +112,7 @@ public class Inventory : MonoBehaviour
         slot2.amount = tempAmount;
         return true;
     }
+
     public bool SwapItems(int id1, int id2)
     {
         InventorySlot slot1 = GetSlotById(id1);
@@ -110,7 +129,6 @@ public class Inventory : MonoBehaviour
         }
         return slots[id];
     }
-
 }
 
 public class InventorySlot
