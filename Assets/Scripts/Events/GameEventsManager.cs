@@ -12,6 +12,7 @@ public class GameEventsManager : MonoBehaviour
     public InputEvents inputEvents;
     public PlayerEvents playerEvents;
     public NPCEvents npcEvents;
+    public PuzzleEvents puzzleEvents;
 
     private bool cursorIsShown = false;
 
@@ -32,6 +33,7 @@ public class GameEventsManager : MonoBehaviour
         miscEvents = new MiscEvents();
         questEvents = new QuestEvents();
         npcEvents = new NPCEvents();
+        puzzleEvents = new PuzzleEvents();
 
         LockCursor();
     }
