@@ -371,7 +371,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 69af18834f0f3c9488e9dcadafd30c6e, type: 2}
   cardPrefab: {fileID: 5352700371498542050, guid: 3f402caf0bbf54748a6a7768c82d6c74, type: 3}
   cardParent: {fileID: 1366198909}
-  gridSize: {x: 6, y: 1}
+  gridSize: {x: 3, y: 2}
   spacing: 110
   botChance: 0.1
 --- !u!114 &1366198906

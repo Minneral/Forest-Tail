@@ -12,13 +12,19 @@ public class QuestPoint : MonoBehaviour
     [SerializeField] private bool startPoint = true;
     [SerializeField] private bool finishPoint = true;
 
+    [Header("Quest Assignment")]
+    [SerializeField] private bool assignByDialogue = true;
+    [SerializeField] private bool assignBySubmit = true;
+    [SerializeField] private string NPCName = "";
+
+
     private bool playerIsNear = false;
     private string questId;
     private QuestState currentQuestState;
 
     private QuestIcon questIcon;
 
-    private void Awake() 
+    private void Awake()
     {
         questId = questInfoForPoint.id;
         questIcon = GetComponentInChildren<QuestIcon>();
@@ -27,16 +33,36 @@ public class QuestPoint : MonoBehaviour
     private void OnEnable()
     {
         GameEventsManager.instance.questEvents.onQuestStateChange += QuestStateChange;
-        GameEventsManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
+        GameEventsManager.instance.inputEvents.onSubmitPressed += QuestAssignBySubmit;
+        GameEventsManager.instance.npcEvents.onNPCTalked += QuestAssignByDialogue;
     }
 
     private void OnDisable()
     {
         GameEventsManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
-        GameEventsManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
+        GameEventsManager.instance.inputEvents.onSubmitPressed -= QuestAssignBySubmit;
+        GameEventsManager.instance.npcEvents.onNPCTalked -= QuestAssignByDialogue;
     }
 
-    private void SubmitPressed()
+    void QuestAssignBySubmit()
+    {
+        if (assignBySubmit && !assignByDialogue)
+        {
+            QuestAssignPerform();
+        }
+    }
+
+    void QuestAssignByDialogue(string npcName)
+    {
+        if (!assignBySubmit && assignByDialogue)
+        {
+            if (npcName == this.NPCName)
+                QuestAssignPerform();
+        }
+    }
+
+
+    private void QuestAssignPerform()
     {
         if (!playerIsNear)
         {
@@ -79,5 +105,18 @@ public class QuestPoint : MonoBehaviour
         {
             playerIsNear = false;
         }
+    }
+
+    void OnValidate()
+    {
+#if UNITY_EDITOR
+
+        if (assignByDialogue)
+            assignBySubmit = false;
+
+        if (assignBySubmit)
+            assignByDialogue = false;
+
+#endif
     }
 }

@@ -24,6 +24,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject[] choices;
     private TextMeshProUGUI[] choicesText;
 
+    private string lastNPCName;
+
 
     private Story currentStory;
     public bool dialogueIsPlaying { get; private set; }
@@ -90,13 +92,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void EnterDialogueMode(TextAsset inkJSON)
+    public void EnterDialogueMode(TextAsset inkJSON, string npcName)
     {
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
 
         dialogueVariables.StartListening(currentStory);
+        lastNPCName = npcName;
 
         // reset portrait, layout, and speaker
         displayNameText.text = "???";
@@ -109,6 +112,7 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         dialogueVariables.StopListening(currentStory);
+        GameEventsManager.instance.npcEvents.NPCTalked(lastNPCName);
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);

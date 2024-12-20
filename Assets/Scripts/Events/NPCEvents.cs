@@ -10,4 +10,13 @@ public class NPCEvents
             onNPCDeath();
         }
     }
+
+    public event Action<string> onNPCTalked;
+    public void NPCTalked(string npcName)
+    {
+        if (onNPCTalked != null)
+        {
+            onNPCTalked(npcName);
+        }
+    }
 }

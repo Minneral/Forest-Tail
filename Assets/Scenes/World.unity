@@ -2496,6 +2496,9 @@ MonoBehaviour:
   questInfoForPoint: {fileID: 11400000, guid: 996f07e42e08f374d9b58a269b4bb689, type: 2}
   startPoint: 1
   finishPoint: 1
+  assignByDialogue: 0
+  assignBySubmit: 1
+  NPCName: 
 --- !u!65 &1008500370
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3167,6 +3170,7 @@ GameObject:
   - component: {fileID: 2072256653}
   - component: {fileID: 2072256652}
   - component: {fileID: 2072256651}
+  - component: {fileID: 2072256656}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -3187,6 +3191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inkJSON: {fileID: 4900000, guid: ff7c00daabcb8384cab2d29bf391ccb4, type: 3}
+  npcName: Chloe
 --- !u!65 &2072256652
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3274,6 +3279,24 @@ Transform:
   - {fileID: 1818266304}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2072256656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072256650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e550ff867946d4489d1d63a8688db41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questInfoForPoint: {fileID: 11400000, guid: 996f07e42e08f374d9b58a269b4bb689, type: 2}
+  startPoint: 1
+  finishPoint: 1
+  assignByDialogue: 1
+  assignBySubmit: 0
+  NPCName: Chloe
 --- !u!108 &2140187563 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 5508513181496591454, guid: 9ca60b239720ffc46834a1148e788455, type: 3}

@@ -9,6 +9,7 @@ public class DialogueTrigger : MonoBehaviour
 
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJSON;
+    [SerializeField] private string npcName;
 
     private bool playerInRange;
 
@@ -42,7 +43,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (playerInRange && !DialogueManager.instance.dialogueIsPlaying)
         {
-            DialogueManager.instance.EnterDialogueMode(inkJSON);
+            DialogueManager.instance.EnterDialogueMode(inkJSON, npcName);
         }
     }
 
