@@ -93,6 +93,8 @@ public class Memories : MonoBehaviour
 
         yield return new WaitForSeconds(endGameDelay); // Пауза перед завершением игры
 
+        GameEventsManager.instance.puzzleEvents.MemoriesEnd();
+        
         hubPanel.SetActive(false);
         isActive = false;
         // Очистка игровых данных

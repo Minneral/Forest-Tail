@@ -25,7 +25,9 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI[] choicesText;
 
     private string lastNPCName;
+    private string lastLine;
     private bool needUpdateVariables = false;
+    private bool continueLocked = false;
 
 
     private Story currentStory;
@@ -58,6 +60,7 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         GameEventsManager.instance.inputEvents.onSubmitPressed += OnSubmit;
+        GameEventsManager.instance.puzzleEvents.onMemoriesEnd += UnLockContinue;
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
@@ -75,6 +78,7 @@ public class DialogueManager : MonoBehaviour
     private void OnDestroy()
     {
         GameEventsManager.instance.inputEvents.onSubmitPressed -= OnSubmit;
+        GameEventsManager.instance.puzzleEvents.onMemoriesEnd -= UnLockContinue;
     }
 
     private void Update()
@@ -86,14 +90,31 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    void UnLockContinue()
+    {
+        continueLocked = false;
+    }
+
     void OnSubmit()
     {
-        if (canContinueToNextLine
-                && currentStory.currentChoices.Count == 0)
+        // Если есть выборы
+        if (currentStory.currentChoices.Count > 0)
+        {
+            return;
+        }
+
+        // Если текст полностью отображён
+        if (canContinueToNextLine && !continueLocked)
         {
             ContinueStory();
         }
+        // Если текст ещё печатается
+        else if (!canContinueToNextLine)
+        {
+            SkipDisplayLine();
+        }
     }
+
 
     public void EnterDialogueMode(TextAsset inkJSON, string npcName)
     {
@@ -124,7 +145,7 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueStory()
     {
-        if(needUpdateVariables)
+        if (needUpdateVariables)
         {
             needUpdateVariables = false;
             dialogueVariables.VariablesToStory(currentStory);
@@ -154,6 +175,7 @@ public class DialogueManager : MonoBehaviour
                 // handle tags
                 HandleTags(currentStory.currentTags);
                 displayLineCoroutine = StartCoroutine(DisplayLine(nextLine));
+                lastLine = nextLine;
             }
         }
         else
@@ -201,6 +223,19 @@ public class DialogueManager : MonoBehaviour
 
         canContinueToNextLine = true;
     }
+
+    void SkipDisplayLine()
+    {
+        if (displayLineCoroutine != null)
+        {
+            StopCoroutine(displayLineCoroutine); // Прекращаем корутину
+        }
+
+        dialogueText.maxVisibleCharacters = lastLine.Length;
+        DisplayChoices();
+        canContinueToNextLine = true;
+    }
+
     private void HideChoices()
     {
         foreach (GameObject choiceButton in choices)
@@ -237,6 +272,7 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case PUZZLE_TAG:
                     GameEventsManager.instance.puzzleEvents.MemoriesStart();
+                    continueLocked = true;
                     needUpdateVariables = true;
                     break;
                 default:

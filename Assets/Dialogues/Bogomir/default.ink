@@ -11,7 +11,7 @@ VAR talking = false
 
 === Greeting ===
     {talking == false:
-        Тебе есть что спросить? #speaker:{npc} #portrait:{npc_portrait}
+        Приветствую! Есть что на душе? #speaker:{npc} #portrait:{npc_portrait}
         ~ talking = true
     }
 -> UnifiedChoices
@@ -19,23 +19,24 @@ VAR talking = false
 === UnifiedChoices ===
     {bogomir_quest_completed == false && bogomir_quest_assigned == false:
         * [Нужна ли вам помощь?]
-            Слыхал неспокойное у вас тут место, быть может нужна помощь? #speaker:{player_name} #portrait:player_default
-            Да, тут ты прав! Недавно гоблины в округе объявились, да жить не дают. Помоги избавиться от них, а я уж в долге не останусь. #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
-            Добро, я посмотрю что можно будет сделать. Только расскажи, где в последний раз их видел #speaker:{player_name} #portrait:player_default
-            Видел как из деревни убегали со стороны второго входа. Вроде на первом перекрестке повернули налево. Они вряд ли далеко ушли #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
-            Что ж, пойду осмотрюсь #speaker:{player_name} #portrait:player_default
+            Слышал, у вас тут неспокойно. Может, помощь какая нужна? #speaker:{player_name} #portrait:player_default
+            Точно! Тут гоблины шастают, покоя не дают. Поможешь от них избавиться? Благодарен буду! #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
+            Добро, посмотрю, что можно сделать. Где их в последний раз видели? #speaker:{player_name} #portrait:player_default
+            Видел их, как убегали из деревни через второй вход. На первом перекрестке налево свернули. Далеко они не ушли, это точно. #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
+            Ладно, пойду посмотрю. #speaker:{player_name} #portrait:player_default
             -> UnifiedChoices
     - else:
         {bogomir_quest_completed == true && bogomir_quest_finished == false:
-            * Я разобрался с гоблинами #speaker:{player_name} #portrait:player_default
-                Вот как, отличная работа! Вот тебе награда. #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
+            * Я разобрался с гоблинами. #speaker:{player_name} #portrait:player_default
+                Да ну! Молодец! Вот тебе награда. #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
                 -> UnifiedChoices
         }
     }
 
-    + Расскажи про деревню #speaker:{player_name} #portrait:player_default
-        Ох, было бы чего рассказывать. Сидим у черта на куличиках, да живем от зимы к зиме. Единственное что, наверное, лес у нас красивый. #speaker:{npc} #portrait:{npc_portrait}
+    + Расскажи про деревню. #speaker:{player_name} #portrait:player_default
+        Эх, не о чем особо рассказывать. Живем здесь у черта на куличиках, зимы дожидаемся. Но лес у нас и вправду красивый! #speaker:{npc} #portrait:{npc_portrait}
         -> UnifiedChoices
-    * До скорого #speaker:{player_name} #portrait:player_default
-        Удачи тебе #speaker:{npc} #portrait:{npc_portrait}
+    * До скорого! #speaker:{player_name} #portrait:player_default
+        Удачи! Береги себя. #speaker:{npc} #portrait:{npc_portrait}
         -> END
+}

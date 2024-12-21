@@ -10,37 +10,34 @@ VAR talking = false
 -> Greeting
 
 === Greeting ===
-    {talking == false:
-        Здравствуй #speaker:{npc} #portrait:{npc_portrait}
-        ~ talking = true
-    }
+    Добрый день, путник! Чем могу помочь? #speaker:{npc} #portrait:{npc_portrait}
 -> UnifiedChoices
 
 === UnifiedChoices ===
     {mikolaMemories_quest_completed == false && mikolaMemories_quest_assigned == false:
         * [Помощь нужна?]
-            Нужно ли тебе помочь в каком деле? #speaker:{player_name} #portrait:player_default
-            Я со всем сам потихоньку справляюсь. Если так хочешь помочь - можешь заставить Якова работать, а то он только и делает, что в карты играет. #speaker:{npc} #portrait:{npc_portrait} #quest:mikolaMemories
-            Вот как, посмотрю что можно с этим сделать. #speaker:{player_name} #portrait:player_default
+            Может, нужна помощь с чем-нибудь? #speaker:{player_name} #portrait:player_default
+            Спасибо за предложение, но пока справляюсь сам. Хотя, если хочешь помочь, уговори Якова взяться за дело - он только и делает, что карты раскладывает. #speaker:{npc} #portrait:{npc_portrait} #quest:mikolaMemories
+            Ясно. Попробую поговорить с ним. #speaker:{player_name} #portrait:player_default
             -> UnifiedChoices
     - else:
         {mikolaMemories_quest_assigned == true && mikolaMemories_quest_completed == false :
-            * Нужно лишь заставить его работать? #speaker:{player_name} #portrait:player_default
-                Да, а то совсем уже обленел, только и делает, что играет #speaker:{npc} #portrait:{npc_portrait}
+            * [Только заставить его работать?]
+                Да, иначе никак. Совсем обленился, от работы бегает как чёрт от ладана. #speaker:{npc} #portrait:{npc_portrait}
                 -> UnifiedChoices
-        
+
         - else:
             {mikolaMemories_quest_completed == true && mikolaMemories_quest_finished == false:
-                * Я заставил его работать
-                    Вот как, спасибо тебе! #quest:mikolaMemories #speaker:{npc} #portrait:{npc_portrait}
+                * [Я заставил его работать.]
+                    Ты молодец! Спасибо за помощь, иначе я бы сам с этим не справился. #quest:mikolaMemories #speaker:{npc} #portrait:{npc_portrait}
                     -> UnifiedChoices
             }
         }
     }
 
-    + Как досуг проводишь? #speaker:{player_name} #portrait:player_default
-        Смотрю в окно или играю в карты. #speaker:{npc} #portrait:{npc_portrait}
+    + Тяжело работать на мельнице? #speaker:{player_name} #portrait:player_default
+        Нет, не тяжело, но ответственность большая. Ошибёшься с пропорциями - и всё на смарку. А в остальном работа даже спокойная. Главное - втянуться. #speaker:{npc} #portrait:{npc_portrait}
         -> UnifiedChoices
-    * До скорого #speaker:{player_name} #portrait:player_default
-        До встречи! #speaker:{npc} #portrait:{npc_portrait}
+    * До скорого! #speaker:{player_name} #portrait:player_default
+        До встречи, путник! Береги себя. #speaker:{npc} #portrait:{npc_portrait}
         -> END
