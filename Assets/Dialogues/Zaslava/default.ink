@@ -36,8 +36,8 @@ VAR talking = false
         
         - else:
             {zaslava_quest_completed == true && zaslava_quest_finished == false:
-                * [Я собрал грибы] #speaker:{player_name} #portrait:player_default
-                    Вот, грибов тебе собрал.
+                * [Я собрал грибы]
+                    Вот, грибов тебе собрал. #speaker:{player_name} #portrait:player_default
                     Спасибо тебе большое! #quest:zaslava #speaker:{npc} #portrait:{npc_portrait}
                     -> UnifiedChoices
             }
@@ -48,7 +48,9 @@ VAR talking = false
         Красивый край: чистый воздух, умиротворение. Одно лишь плохо, что разбойников последнее время много. #speaker:{npc} #portrait:{npc_portrait}
         -> UnifiedChoices
     * Чем занимаешься сегодня вечером? #speaker:{player_name} #portrait:player_default
-        Хах, извини, но я помолвлена, а потому заводить отношений не намерена #speaker:{npc} #portrait:{npc_portrait}
+        Убираюсь по дому, готовлю отвары ну и разное по мелочи. #speaker:{npc} #portrait:{npc_portrait}
+        Сходить погулять по лесу со мной не хочешь? #speaker:{player_name} #portrait:player_default
+        Извини, слишком занята, давай как-нибудь в другой раз #speaker:{npc} #portrait:{npc_portrait}
         -> UnifiedChoices
     * До скорого #speaker:{player_name} #portrait:player_default
         До встречи! #speaker:{npc} #portrait:{npc_portrait}
