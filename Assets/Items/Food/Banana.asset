@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5bda4a5b3bca418e0a82edf3fc92a, type: 3}
   m_Name: Banana
   m_EditorClassIdentifier: 
+  itemId: Banana
   type: 1
   itemName: Banana
   itemDescription: Just Banana

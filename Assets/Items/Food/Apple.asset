@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5bda4a5b3bca418e0a82edf3fc92a, type: 3}
   m_Name: Apple
   m_EditorClassIdentifier: 
+  itemId: Apple
   type: 1
   itemName: Apple
   itemDescription: Just a common apple

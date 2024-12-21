@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5bda4a5b3bca418e0a82edf3fc92a, type: 3}
   m_Name: Mushroom
   m_EditorClassIdentifier: 
+  itemId: Mushroom
   type: 1
-  itemName: "\u0413\u0440\u0438\u0431"
+  itemName: Mushroom
   itemDescription: "\u0413\u0440\u0438\u0431\u043E\u0447\u0435\u043A"
   itemWeight: 1
   icon: {fileID: 21300000, guid: 34a54d0dd98f1db45b05a2eb734c720d, type: 3}
