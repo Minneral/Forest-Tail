@@ -22,7 +22,7 @@ public class QuestInfoSO : ScriptableObject
     public GameObject rewardPrefab;
 
     [Header("Optional")]
-    public string NPCAssignerName;
+    public List<string> NPCAssignerTag;
 
     // ensure the id is always the name of the Scriptable Object asset
     private void OnValidate()

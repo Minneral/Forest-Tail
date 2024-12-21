@@ -48,21 +48,35 @@ public class DialogueVariables
 
     private void VariableChanged(string name, Ink.Runtime.Object value)
     {
-        // only maintain variables that were initialized from the globals ink file
+        // // only maintain variables that were initialized from the globals ink file
+        // if (variables.ContainsKey(name))
+        // {
+        //     variables.Remove(name);
+        //     variables.Add(name, value);
+        // }
+
+
+        // Проверяем, существует ли переменная в словаре
         if (variables.ContainsKey(name))
         {
-            variables.Remove(name);
-            variables.Add(name, value);
+            variables[name] = value; // Обновляем значение без удаления
+            Debug.Log($"Updated variable: {name} = {value}");
+        }
+        else
+        {
+            Debug.LogWarning($"Attempted to update variable {name}, but it doesn't exist in the global variables.");
         }
     }
 
-    private void VariablesToStory(Story story)
+    public void VariablesToStory(Story story)
     {
-        foreach (KeyValuePair<string, Ink.Runtime.Object> variable in variables)
+        var variablesCopy = new Dictionary<string, Ink.Runtime.Object>(variables); // Создаем копию словаря
+        foreach (KeyValuePair<string, Ink.Runtime.Object> variable in variablesCopy)
         {
             story.variablesState.SetGlobal(variable.Key, variable.Value);
         }
     }
+
 
     /// <summary>
     /// Updates the value of a global variable directly from code.

@@ -25,6 +25,7 @@ public class DialogueManager : MonoBehaviour
     private TextMeshProUGUI[] choicesText;
 
     private string lastNPCName;
+    private bool needUpdateVariables = false;
 
 
     private Story currentStory;
@@ -39,6 +40,7 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string QUEST_TAG = "quest";
+    private const string PUZZLE_TAG = "puzzle";
 
     private DialogueVariables dialogueVariables;
 
@@ -122,6 +124,11 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueStory()
     {
+        if(needUpdateVariables)
+        {
+            needUpdateVariables = false;
+            dialogueVariables.VariablesToStory(currentStory);
+        }
         if (currentStory.canContinue)
         {
             // set text for the current dialogue line
@@ -136,7 +143,7 @@ public class DialogueManager : MonoBehaviour
                 StartCoroutine(ExitDialogueMode());
             }
             // handle case when dialogue line is empty
-            if(nextLine.Equals(""))
+            if (nextLine.Equals(""))
             {
                 ContinueStory();
                 return;
@@ -228,6 +235,10 @@ public class DialogueManager : MonoBehaviour
                 case QUEST_TAG:
                     GameEventsManager.instance.npcEvents.NPCQuestAssign(tagValue);
                     break;
+                case PUZZLE_TAG:
+                    GameEventsManager.instance.puzzleEvents.MemoriesStart();
+                    needUpdateVariables = true;
+                    break;
                 default:
                     Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
                     break;
@@ -302,7 +313,7 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueVariables.UpdateVariable(variable_name, new Ink.Runtime.BoolValue(value));
     }
-    
+
     public void OnApplicationQuit()
     {
         dialogueVariables.SaveVariables();

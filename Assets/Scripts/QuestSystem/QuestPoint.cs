@@ -53,7 +53,7 @@ public class QuestPoint : MonoBehaviour
     {
         if (!assignBySubmit && assignByDialogue)
         {
-            if (npcName.ToLower() == questInfoForPoint.NPCAssignerName.ToLower())
+            if (questInfoForPoint.NPCAssignerTag.Contains(npcName))
                 QuestAssignPerform();
         }
     }

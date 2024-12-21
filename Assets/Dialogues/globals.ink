@@ -11,3 +11,8 @@ VAR zaslava_quest_finished = false
 VAR yakov_quest_assigned = false
 VAR yakov_quest_completed = false
 VAR yakov_quest_finished = false
+
+VAR mikolaMemories_quest_assigned = false
+VAR mikolaMemories_quest_completed = false
+VAR mikolaMemories_quest_finished = false
+VAR mikolaMemories_player_losed = false

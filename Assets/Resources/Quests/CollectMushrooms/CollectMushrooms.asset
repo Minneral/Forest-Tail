@@ -21,4 +21,5 @@ MonoBehaviour:
   questStepPrefabs:
   - {fileID: 120301859911019212, guid: 52d1c3fad65eca8458e409d71e6bb76f, type: 3}
   rewardPrefab: {fileID: 120301859911019212, guid: 043c8abb0391ebd42bb4394d54e9ba07, type: 3}
-  NPCAssignerName: zaslava
+  NPCAssignerName:
+  - zaslava

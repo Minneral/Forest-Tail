@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class Memories : MonoBehaviour
 {
+    [SerializeField] private float startGameDelay = 5f; // Шанс, что бот найдет пару
+    [SerializeField] private float endGameDelay = 1.5f; // Шанс, что бот найдет пару
     [SerializeField] private MemoriesCardInfo[] cards; // Доступные карты
     [SerializeField] private GameObject cardPrefab; // Префаб карты
+    [SerializeField] private GameObject hubPanel;
     [SerializeField] private Transform cardParent; // Родитель для размещения карт
     [SerializeField] private Vector2 gridSize = new Vector2(4, 4); // Размер сетки (столбцы, строки)
     [SerializeField] private float spacing = 1.5f; // Расстояние между картами
     [SerializeField] private float botChance = 0.7f; // Шанс, что бот найдет пару
-
+    public static Memories instance { get; private set; }
+    public bool isActive;
     private List<MemoriesCard> cardList;
     private List<MemoriesCard> openedCards = new List<MemoriesCard>();
     private Dictionary<string, MemoriesCard> revealedCards = new Dictionary<string, MemoriesCard>();
@@ -19,12 +23,84 @@ public class Memories : MonoBehaviour
     private bool isCardLocked = false; // Флаг блокировки карт
     private bool isPlayerTurn = true; // Чей ход: true - игрок, false - бот
 
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(instance);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    private void OnEnable()
+    {
+        GameEventsManager.instance.puzzleEvents.onMemoriesStart += StartGame;
+    }
+
+    private void OnDisable()
+    {
+        GameEventsManager.instance.puzzleEvents.onMemoriesStart -= StartGame;
+    }
+
     private void Start()
     {
+        isActive = false;
+        hubPanel.SetActive(false);
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(StartGameWithDelay());
+    }
+
+    private IEnumerator StartGameWithDelay()
+    {
+        isActive = true;
+        yield return new WaitForSeconds(startGameDelay); // Задержка перед началом игры
+
+        hubPanel.SetActive(true);
+
+        playerScore = 0;
+        botScore = 0;
+        isCardLocked = false;
+        isPlayerTurn = true;
+        openedCards.Clear();
+        revealedCards.Clear();
+
+        // Удалить все старые карты, если они существуют
+        foreach (Transform child in cardParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // Создать и разместить новые карты
         cardList = CreateCardList();
         Shuffle(cardList);
         PlaceCardsOnGrid();
         UpdateTurnInfo();
+    }
+
+    private IEnumerator EndGame()
+    {
+        if (playerScore > botScore)
+            GameEventsManager.instance.puzzleEvents.MemoriesPlayerWon();
+        else
+            // Костыль!!
+            DialogueManager.instance.UpdateVariable("mikolaMemories_player_losed", true);
+
+        yield return new WaitForSeconds(endGameDelay); // Пауза перед завершением игры
+
+        hubPanel.SetActive(false);
+        isActive = false;
+        // Очистка игровых данных
+        playerScore = 0;
+        botScore = 0;
+        isCardLocked = false;
+        openedCards.Clear();
+        revealedCards.Clear();
     }
 
     private List<MemoriesCard> CreateCardList()
@@ -84,7 +160,7 @@ public class Memories : MonoBehaviour
         {
             StartCoroutine(CheckMatch(() =>
             {
-                if (CheckGameEnd()) return;
+                CheckGameEnd();
                 if (!isPlayerTurn) StartCoroutine(BotMove());
             }));
         }
@@ -134,8 +210,6 @@ public class Memories : MonoBehaviour
         onComplete?.Invoke();
     }
 
-
-
     private void RemoveCardsFromGame()
     {
         foreach (var card in openedCards)
@@ -153,8 +227,6 @@ public class Memories : MonoBehaviour
         }
     }
 
-
-
     private void CloseOpenedCards()
     {
         foreach (var card in openedCards)
@@ -165,9 +237,11 @@ public class Memories : MonoBehaviour
 
     private bool CheckGameEnd()
     {
-        if (playerScore + botScore == cards.Length)
+        if (playerScore + botScore == cardList.Count / 2)
         {
             Debug.Log(playerScore > botScore ? "You Win!" : "You Lose!");
+            StopAllCoroutines();
+            StartCoroutine(EndGame());
             return true;
         }
         return false;
@@ -215,14 +289,15 @@ public class Memories : MonoBehaviour
         }
 
         yield return CheckMatch(() =>
-        {
-            if (!CheckGameEnd() && !isPlayerTurn)
-            {
-                StartCoroutine(BotMove()); // Бот продолжает ход, если угадал
-            }
-        });
-    }
+         {
+             if (CheckGameEnd()) return; // Если игра завершена, прекратить выполнение
 
+             if (!isPlayerTurn)
+             {
+                 StartCoroutine(BotMove()); // Бот продолжает ход, если угадал
+             }
+         });
+    }
 
     private MemoriesCard FindPair(MemoriesCard card)
     {
@@ -244,5 +319,10 @@ public class Memories : MonoBehaviour
     {
         Debug.Log(isPlayerTurn ? "Player's turn" : "Bot's turn");
         Debug.Log($"Player Score: {playerScore}, Bot Score: {botScore}");
+    }
+
+    public (int PlayerScore, int BotScore) GetScore()
+    {
+        return (this.playerScore, this.botScore);
     }
 }
