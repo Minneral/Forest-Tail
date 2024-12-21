@@ -54,7 +54,7 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     void PickUp()
     {
-        if(item.itemId == "Mushroom")
+        if(item.ItemId == "Mushroom")
             GameEventsManager.instance.miscEvents.MushroomCollected();
             
         if (_inventory.AddItem(item))

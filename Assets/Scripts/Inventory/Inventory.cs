@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (var slot in slots)
         {
-            if (slot.item != null && slot.item.itemId == newItem.itemId)
+            if (slot.item != null && slot.item.ItemId == newItem.ItemId)
             {
                 if (newItem.stackAmount > 1 && slot.amount < newItem.stackAmount)
                 {
@@ -72,7 +72,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (var slot in slots)
         {
-            if (slot.item != null && slot.item.itemId == itemId)
+            if (slot.item != null && slot.item.ItemId == itemId)
             {
                 slot.amount--;
                 if (slot.amount <= 0)

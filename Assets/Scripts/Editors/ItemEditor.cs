@@ -14,7 +14,7 @@ public class ItemEditor : Editor
         EditorGUILayout.LabelField("General Settings", EditorStyles.boldLabel);
 
         // General Settings Fields
-        assign.itemName = EditorGUILayout.TextField("Id", assign.itemId);
+        assign.itemName = EditorGUILayout.TextField("Id", assign.ItemId);
         assign.itemName = EditorGUILayout.TextField("Name", assign.itemName);
         assign.itemDescription = EditorGUILayout.TextField("Description", assign.itemDescription);
         assign.itemWeight = EditorGUILayout.FloatField("Weight", assign.itemWeight);
