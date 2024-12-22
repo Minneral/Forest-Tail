@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Security.Cryptography;
 
 public class InputEvents
 {
@@ -40,6 +41,9 @@ public class InputEvents
     public void SubmitPressed()
     {
         if (Memories.instance.isActive)
+            return;
+
+        if (!GameEventsManager.instance.IsAnyUIVisible())
             return;
 
         if (onSubmitPressed != null)

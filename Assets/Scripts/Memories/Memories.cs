@@ -8,7 +8,7 @@ public class Memories : MonoBehaviour
     [SerializeField] private float endGameDelay = 1.5f; // Шанс, что бот найдет пару
     [SerializeField] private MemoriesCardInfo[] cards; // Доступные карты
     [SerializeField] private GameObject cardPrefab; // Префаб карты
-    [SerializeField] private GameObject hubPanel;
+    [SerializeField] private GameObject hubPanel; // Панель
     [SerializeField] private Transform cardParent; // Родитель для размещения карт
     [SerializeField] private Vector2 gridSize = new Vector2(4, 4); // Размер сетки (столбцы, строки)
     [SerializeField] private float spacing = 1.5f; // Расстояние между картами
@@ -94,7 +94,7 @@ public class Memories : MonoBehaviour
         yield return new WaitForSeconds(endGameDelay); // Пауза перед завершением игры
 
         GameEventsManager.instance.puzzleEvents.MemoriesEnd();
-        
+
         hubPanel.SetActive(false);
         isActive = false;
         // Очистка игровых данных
@@ -152,23 +152,6 @@ public class Memories : MonoBehaviour
         }
     }
 
-    public void CardClicked(MemoriesCard card)
-    {
-        if (!isPlayerTurn || openedCards.Contains(card) || card.isOpened || isCardLocked) return;
-
-        OpenCardLogic(card);
-
-        if (openedCards.Count == 2)
-        {
-            StartCoroutine(CheckMatch(() =>
-            {
-                CheckGameEnd();
-                if (!isPlayerTurn) StartCoroutine(BotMove());
-            }));
-        }
-    }
-
-
     private void OpenCardLogic(MemoriesCard card)
     {
         if (!card.gameObject.activeSelf) return; // Игнорируем неактивные карты
@@ -181,10 +164,26 @@ public class Memories : MonoBehaviour
     }
 
 
+    public void CardClicked(MemoriesCard card)
+    {
+        if (!isPlayerTurn || openedCards.Contains(card) || card.isOpened || isCardLocked) return;
+
+        OpenCardLogic(card);
+
+        if (openedCards.Count == 2)
+        {
+            isCardLocked = true;  // Блокируем карты только после открытия второй карты
+            StartCoroutine(CheckMatch(() =>
+            {
+                CheckGameEnd();
+                isCardLocked = false; // Разблокировка карт после завершения проверки
+                if (!isPlayerTurn) StartCoroutine(BotMove());
+            }));
+        }
+    }
+
     private IEnumerator CheckMatch(System.Action onComplete)
     {
-        isCardLocked = true; // Блокировка карт
-
         yield return new WaitForSeconds(1f);
 
         if (openedCards.Count < 2) yield break; // Убедимся, что открыты две карты
@@ -207,10 +206,9 @@ public class Memories : MonoBehaviour
         openedCards.Clear();
         UpdateTurnInfo();
 
-        isCardLocked = false; // Разблокировка карт
-
         onComplete?.Invoke();
     }
+
 
     private void RemoveCardsFromGame()
     {

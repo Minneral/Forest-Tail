@@ -84,4 +84,14 @@ public class GameEventsManager : MonoBehaviour
                (!IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.isActive);
     }
 
+    public bool IsOnlyUIVisible(params Type[] excludedTypes)
+    {
+        bool IsExcluded<T>(T instance) => excludedTypes.Contains(typeof(T));
+
+        return (IsExcluded(InventoryUI.Instance) && InventoryUI.Instance.isActive) &&
+               (IsExcluded(DialogueManager.instance) && DialogueManager.instance.dialogueIsPlaying) &&
+               (IsExcluded(PauseMenu.instance) && PauseMenu.instance.isPaused) &&
+               (IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.isActive);
+    }
+
 }
