@@ -52,6 +52,7 @@ public class DialogueTrigger : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             playerInRange = true;
+            HintManager.instance.ShowHint("Нажмите E, чтобы начать диалог");
         }
     }
 
@@ -60,6 +61,7 @@ public class DialogueTrigger : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             playerInRange = false;
+            HintManager.instance.HideHint();
         }
     }
 }

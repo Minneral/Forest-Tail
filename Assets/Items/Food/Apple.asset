@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: Apple
   type: 1
-  itemName: Apple
-  itemDescription: Just a common apple
+  itemName: "\u042F\u0431\u043B\u043E\u043A\u043E"
+  itemDescription: "\u041E\u0431\u044B\u0447\u043D\u043E\u0435 \u044F\u0431\u043B\u043E\u043A\u043E"
   itemWeight: 1
   icon: {fileID: 21300000, guid: 8b62791be0aa76248a8cb592cfa46bad, type: 3}
   stackAmount: 64

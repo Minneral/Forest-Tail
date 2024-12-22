@@ -19,12 +19,12 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     public void OnDefocused()
     {
-        Debug.Log($"Item '{item.itemName}' of type '{item.GetType().Name}' is DeFocused");
+        HintManager.instance.HideHint();
     }
 
     public void OnFocused()
     {
-        Debug.Log($"Item '{item.itemName}' of type '{item.GetType().Name}' is OnFocused");
+        HintManager.instance.ShowHint("Нажмите E чтобы подобрать " + item.itemName);
     }
 
     // Start is called before the first frame update

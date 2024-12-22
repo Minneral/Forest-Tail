@@ -18,11 +18,12 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 1f; // Скорость ходьбы 
     public float runSpeed = 3f; // Скорость бега
     public float dodgeDistance = 5f; // Дистанция отскока
+    public float dodgeCoolDown = 1f;
+    private bool canDodge = true;
     public float dodgeDuration = 0.5f;
 
     public float groundDistance = 0.01f; // Радиус сферы для проверки касания с землей
     public LayerMask groundMask; // Маска для слоев земли
-    private bool isGrounded; // Переменная для хранения информации о том, на земле ли персонаж
 
     public float gravity = -9.81f; // Гравитация 
     public float jumpHeight = 1f; // Высота прыжка 
@@ -99,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded)
+        if (IsGrounded())
         {
             if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины
             {
@@ -112,12 +113,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Dodge()
     {
-        _animator.SetTrigger("Dodge");
-        _stats.TakeStamina(dodgeStaminaCost); // Снимаем стамину за отскок
+        if (IsGrounded() && canDodge)
+        {
+            canDodge = false;
+            _animator.SetTrigger("Dodge");
+            _stats.TakeStamina(dodgeStaminaCost); // Снимаем стамину за отскок
 
-        // Расчет отскока назад
-        Vector3 dodgeDirection = -transform.forward * dodgeDistance;
-        StartCoroutine(PerformDodge(dodgeDirection));
+            // Расчет отскока назад
+            Vector3 dodgeDirection = -transform.forward * dodgeDistance;
+            StartCoroutine(PerformDodge(dodgeDirection));
+        }
     }
 
     private IEnumerator PerformDodge(Vector3 dodgeDirection)
@@ -130,6 +135,9 @@ public class PlayerMovement : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        yield return new WaitForSeconds(dodgeCoolDown);
+        canDodge = true;
     }
 
     void HandleMovement()
@@ -163,11 +171,12 @@ public class PlayerMovement : MonoBehaviour
             _controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        // Проверка земли
-        isGrounded = Physics.CheckSphere(_groundCheck.position, groundDistance, groundMask);
+        // // Проверка земли
+        // isGrounded = Physics.CheckSphere(_groundCheck.position, groundDistance);
+        // Debug.Log(isGrounded);
 
         // Сбрасываем скорость падения, если на земле
-        if (isGrounded && velocity.y < 0)
+        if (IsGrounded() && velocity.y < 0)
         {
             velocity.y = -2f;
         }
@@ -192,6 +201,15 @@ public class PlayerMovement : MonoBehaviour
             staminaUsage = 0f; // Сбрасываем счетчик, если не бежим
         }
     }
+
+    // Добавьте проверку слоя при помощи LayerMask
+    bool IsGrounded()
+    {
+        Ray ray = new Ray(_groundCheck.position, Vector3.down);
+        float rayLength = groundDistance + 0.1f; // Небольшой запас на случай погрешности
+        return Physics.Raycast(ray, rayLength);
+    }
+
 
     private void StopMovement()
     {
