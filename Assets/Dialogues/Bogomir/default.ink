@@ -1,7 +1,6 @@
 INCLUDE ../globals.ink
 VAR npc = "Богомир"
 VAR npc_portrait = "bogomir_default"
-VAR talking = false
 
 -> main
 
@@ -10,10 +9,7 @@ VAR talking = false
 -> Greeting
 
 === Greeting ===
-    {talking == false:
-        Приветствую! Есть что на душе? #speaker:{npc} #portrait:{npc_portrait}
-        ~ talking = true
-    }
+    Приветствую! Есть что на душе? #speaker:{npc} #portrait:{npc_portrait}
 -> UnifiedChoices
 
 === UnifiedChoices ===

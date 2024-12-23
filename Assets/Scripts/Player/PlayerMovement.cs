@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
             GameEventsManager.instance.inputEvents.onMovePressed += MovePressed;
             GameEventsManager.instance.inputEvents.onJumpPressed += Jump;
             GameEventsManager.instance.inputEvents.onDodgePressed += Dodge;
+            GameEventsManager.instance.playerEvents.onPlayerDeath += HandleDeath;
 
             _controller = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
@@ -78,13 +79,14 @@ public class PlayerMovement : MonoBehaviour
         GameEventsManager.instance.inputEvents.onMovePressed -= MovePressed;
         GameEventsManager.instance.inputEvents.onJumpPressed -= Jump;
         GameEventsManager.instance.inputEvents.onDodgePressed -= Dodge;
+        GameEventsManager.instance.playerEvents.onPlayerDeath -= HandleDeath;
         // GameEventsManager.instance.playerEvents.onDisablePlayerMovement += DisablePlayerMovement;
         // GameEventsManager.instance.playerEvents.onEnablePlayerMovement += EnablePlayerMovement;
     }
 
     private void Update()
     {
-        if ((_inventoryUI && _inventoryUI.isActive) || DialogueManager.instance.dialoguePanel.activeSelf)
+        if (GameEventsManager.instance.IsAnyUIVisible(typeof(QuestPanelUI)))
         {
             StopMovement();
             return;
@@ -220,5 +222,9 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetBool("isRunning", false);
 
         _controller.Move(Vector3.zero);
+    }
+    void HandleDeath()
+    {
+        _animator.SetTrigger("Death");
     }
 }

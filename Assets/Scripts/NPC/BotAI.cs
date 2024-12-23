@@ -29,6 +29,8 @@ public class BotAI : MonoBehaviour
     public float attackCooldown = 2f; // Задержка между атаками
     private float attackTimer;
 
+    private bool isPlayerAlive = true;
+
     private NPCStats stats;
     private Vector3 lastPlayerPosition;
 
@@ -40,20 +42,19 @@ public class BotAI : MonoBehaviour
     void Start()
     {
         GameEventsManager.instance.npcEvents.onNPCDeath += Death;
+        GameEventsManager.instance.playerEvents.onPlayerDeath += HandlePlayerDeath;
         stats = GetComponent<NPCStats>();
     }
 
     private void OnDisable()
     {
         GameEventsManager.instance.npcEvents.onNPCDeath -= Death;
+        GameEventsManager.instance.playerEvents.onPlayerDeath -= HandlePlayerDeath;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Удаляем или корректируем условие
-        // if (isInteracting) return;
-
         switch (currentState)
         {
             case State.Patrol:
@@ -72,6 +73,9 @@ public class BotAI : MonoBehaviour
                 Idle();
                 break;
         }
+
+        if (!isPlayerAlive)
+            return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
@@ -111,7 +115,7 @@ public class BotAI : MonoBehaviour
 
         var healthBarService = GetComponentInChildren<HealthBarService>();
         healthBarService.DestroyService();
-        
+
         GetComponent<CapsuleCollider>().enabled = false;
         this.enabled = false; // Выключите скрипт
     }
@@ -255,4 +259,24 @@ public class BotAI : MonoBehaviour
             currentState = State.Chase;
         }
     }
+
+    void HandlePlayerDeath()
+    {
+        // Устанавливаем флаг, что игрок мертв
+        isPlayerAlive = false;
+
+        // Останавливаем бота
+        agent.SetDestination(transform.position);
+
+        // Переводим бота в состояние Idle
+        currentState = State.Idle;
+
+        // Отключаем анимации атаки и ходьбы
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isIdle", true);
+
+        // Логирование для отладки
+        Debug.Log("Игрок мертв. Бот переходит в состояние ожидания.");
+    }
+
 }

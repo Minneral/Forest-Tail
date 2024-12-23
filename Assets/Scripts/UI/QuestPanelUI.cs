@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class QuestPanelUI : MonoBehaviour
+public class QuestPanelUI : MonoBehaviour, IScreen
 {
     public GameObject hub;
     public Transform inProgressContent;
@@ -65,14 +65,14 @@ public class QuestPanelUI : MonoBehaviour
     {
         GameEventsManager.instance.inputEvents.onQuestMenuPressed += QuestMenuPressed;
         GameEventsManager.instance.inputEvents.onClosePressed += CloseMenu;
-
+        GameEventsManager.instance.uiEvents.onCloseAllScreens += CloseScreen;
     }
 
     private void OnDisable()
     {
         GameEventsManager.instance.inputEvents.onQuestMenuPressed -= QuestMenuPressed;
         GameEventsManager.instance.inputEvents.onClosePressed -= CloseMenu;
-
+        GameEventsManager.instance.uiEvents.onCloseAllScreens -= CloseScreen;
     }
 
     void QuestMenuPressed()
@@ -104,7 +104,7 @@ public class QuestPanelUI : MonoBehaviour
     {
         if (!isActive)
             return;
-        
+
         var completedQuests = QuestManager.instance.GetCompletedQuests();
         var inProgressQuests = QuestManager.instance.GetInProgressQuests();
 
@@ -134,5 +134,20 @@ public class QuestPanelUI : MonoBehaviour
         var questDescription = item.Find("QuestDescription").GetComponent<TextMeshProUGUI>();
 
         return (questName, questDescription);
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
+    }
+
+    public void DisplayScreen()
+    {
+        QuestMenuPressed();
+    }
+
+    public void CloseScreen()
+    {
+        CloseMenu();
     }
 }

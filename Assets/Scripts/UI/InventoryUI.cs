@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IScreen
 {
     GameObject _background;
     GameObject _inventory;
@@ -25,6 +25,7 @@ public class InventoryUI : MonoBehaviour
     {
         GameEventsManager.instance.inputEvents.onInventoryPressed += InventoryPressed;
         GameEventsManager.instance.inputEvents.onClosePressed += CloseInventory;
+        GameEventsManager.instance.uiEvents.onCloseAllScreens += CloseScreen;
 
         try
         {
@@ -53,6 +54,7 @@ public class InventoryUI : MonoBehaviour
     {
         GameEventsManager.instance.inputEvents.onInventoryPressed -= InventoryPressed;
         GameEventsManager.instance.inputEvents.onClosePressed -= CloseInventory;
+        GameEventsManager.instance.uiEvents.onCloseAllScreens -= CloseScreen;
     }
 
     void InventoryPressed()
@@ -78,5 +80,20 @@ public class InventoryUI : MonoBehaviour
 
         _background.SetActive(isActive);
         _inventory.SetActive(isActive);
+    }
+
+    public bool IsActive()
+    {
+        return isActive;
+    }
+
+    public void DisplayScreen()
+    {
+        ToggleInventory();
+    }
+
+    public void CloseScreen()
+    {
+        CloseInventory();
     }
 }

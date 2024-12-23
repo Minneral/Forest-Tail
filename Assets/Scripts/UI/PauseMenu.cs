@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IScreen
 {
     public GameObject pauseMenuUI;
     public bool isPaused { get; private set; }
@@ -25,12 +25,14 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         GameEventsManager.instance.inputEvents.onClosePressed += PausePressed;
+        GameEventsManager.instance.uiEvents.onCloseAllScreens += CloseScreen;
         isPaused = false;
     }
 
     private void OnDestroy()
     {
         GameEventsManager.instance.inputEvents.onClosePressed -= PausePressed;
+        GameEventsManager.instance.uiEvents.onCloseAllScreens -= CloseScreen;
     }
 
     void PausePressed()
@@ -73,4 +75,18 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public bool IsActive()
+    {
+        return isPaused;
+    }
+
+    public void DisplayScreen()
+    {
+        PausePressed();
+    }
+
+    public void CloseScreen()
+    {
+        ResumeGame();
+    }
 }

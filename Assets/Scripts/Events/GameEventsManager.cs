@@ -13,6 +13,7 @@ public class GameEventsManager : MonoBehaviour
     public PlayerEvents playerEvents;
     public NPCEvents npcEvents;
     public PuzzleEvents puzzleEvents;
+    public UIEvents uiEvents;
 
     private bool cursorIsShown = false;
 
@@ -34,6 +35,7 @@ public class GameEventsManager : MonoBehaviour
         questEvents = new QuestEvents();
         npcEvents = new NPCEvents();
         puzzleEvents = new PuzzleEvents();
+        uiEvents = new UIEvents();
 
         LockCursor();
     }
@@ -78,10 +80,11 @@ public class GameEventsManager : MonoBehaviour
     {
         bool IsExcluded<T>(T instance) => excludedTypes.Contains(typeof(T));
 
-        return (!IsExcluded(InventoryUI.Instance) && InventoryUI.Instance.isActive) ||
+        return (!IsExcluded(InventoryUI.Instance) && InventoryUI.Instance.IsActive()) ||
                (!IsExcluded(DialogueManager.instance) && DialogueManager.instance.dialogueIsPlaying) ||
-               (!IsExcluded(PauseMenu.instance) && PauseMenu.instance.isPaused) ||
-               (!IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.isActive);
+               (!IsExcluded(PauseMenu.instance) && PauseMenu.instance.IsActive()) ||
+               (!IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.IsActive()) ||
+               (!IsExcluded(DeathPanelUI.instance) && DeathPanelUI.instance.IsActive());
     }
 
     public bool IsOnlyUIVisible(params Type[] excludedTypes)
@@ -91,7 +94,11 @@ public class GameEventsManager : MonoBehaviour
         return (IsExcluded(InventoryUI.Instance) && InventoryUI.Instance.isActive) &&
                (IsExcluded(DialogueManager.instance) && DialogueManager.instance.dialogueIsPlaying) &&
                (IsExcluded(PauseMenu.instance) && PauseMenu.instance.isPaused) &&
-               (IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.isActive);
+               (IsExcluded(QuestPanelUI.instance) && QuestPanelUI.instance.IsActive());
     }
 
+    public void LockAllUIOpen()
+    {
+
+    }
 }
