@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class NPCStats : MonoBehaviour
 {
+    public NPCTypes type;
     public int maxHealth = 100;
     private int currentHealth;
 
@@ -29,11 +30,11 @@ public class NPCStats : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            GameEventsManager.instance.npcEvents.NPCDeath();
+            GameEventsManager.instance.npcEvents.NPCDeath(type);
         }
     }
 
-    void Die()
+    void Die(NPCTypes type)
     {
     }
 

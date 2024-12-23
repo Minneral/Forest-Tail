@@ -26,7 +26,7 @@ public class DialogueManager : MonoBehaviour
 
     private string lastNPCName;
     private string lastLine;
-    private bool needUpdateVariables = false;
+    public bool needUpdateVariables = false;
     private bool continueLocked = false;
 
 

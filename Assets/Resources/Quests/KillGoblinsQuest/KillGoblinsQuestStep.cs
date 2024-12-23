@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class KillGoblinsQuestStep : QuestStep
@@ -7,22 +8,34 @@ public class KillGoblinsQuestStep : QuestStep
     private int killed = 0;
     private int killsToComplete = 2;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         GameEventsManager.instance.npcEvents.onNPCDeath += KilledComplete;
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         GameEventsManager.instance.npcEvents.onNPCDeath -= KilledComplete;
     }
 
-    private void KilledComplete()
+    void Start()
     {
-        if(killed < killsToComplete)
+        killed = GameEventsManager.instance.npcEvents.enemiesKilld.GoblinsKilled;
+        if(killed >= killsToComplete)
+            FinishQuestStep();
+    }
+
+    private void KilledComplete(NPCTypes type)
+    {
+        if (type != NPCTypes.Goblin)
+            return;
+
+        if (killed < killsToComplete)
         {
             killed++;
         }
 
-        if(killed >= killsToComplete)
+        if (killed >= killsToComplete)
         {
             FinishQuestStep();
         }

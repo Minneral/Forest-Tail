@@ -68,7 +68,7 @@ public class Inventory : MonoBehaviour
         return false; // Item not found
     }
 
-        public bool RemoveItem(string itemId)
+    public bool RemoveItem(string itemId)
     {
         foreach (var slot in slots)
         {
@@ -146,6 +146,11 @@ public class Inventory : MonoBehaviour
             return null;
         }
         return slots[id];
+    }
+
+    public List<InventorySlot> GetSlotsByItemId(string itemId)
+    {
+        return slots.Where(item => item.item != null && item.item.ItemId.Equals(itemId)).ToList();
     }
 }
 

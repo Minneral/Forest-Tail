@@ -94,7 +94,7 @@ public class BotAI : MonoBehaviour
         }
     }
 
-    void Death()
+    void Death(NPCTypes type)
     {
         if (stats.GetHealth() > 0) return;
 

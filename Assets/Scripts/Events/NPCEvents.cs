@@ -1,13 +1,40 @@
 using System;
 
+public enum NPCTypes
+{
+    Goblin,
+    Villager,
+    Troll,
+};
+
+public class EnemiesKilld
+{
+    // Count kill of every NPC type for statistic
+    public int GoblinsKilled = 0;
+    public int TrollsKilled = 0;
+}
+
 public class NPCEvents
 {
-    public event Action onNPCDeath;
-    public void NPCDeath()
+    public EnemiesKilld enemiesKilld = new EnemiesKilld();
+    public event Action<NPCTypes> onNPCDeath;
+    public void NPCDeath(NPCTypes type)
     {
         if (onNPCDeath != null)
         {
-            onNPCDeath();
+            onNPCDeath(type);
+
+            switch (type)
+            {
+                case NPCTypes.Goblin:
+                    enemiesKilld.GoblinsKilled++;
+                    break;
+                case NPCTypes.Troll:
+                    enemiesKilld.TrollsKilled++;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

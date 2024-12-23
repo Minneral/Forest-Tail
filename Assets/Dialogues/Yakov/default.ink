@@ -41,6 +41,12 @@ VAR talking = false
             -> UnifiedChoices
         }
     }
+    {mikolaMemories_quest_completed == true && mikolaMemories_quest_finished == true: 
+        + [Давай сыграем в карты]
+            О, как хочешь. Вперед, давай попробуем еще раз! #puzzle:memories #speaker:{npc} #portrait:{npc_portrait}
+            Хорошей была партия #speaker:{player_name} #portrait:player_default
+            -> UnifiedChoices
+    }
 
     + Как проводишь время? #speaker:{player_name} #portrait:player_default
         Обычно смотрю в окно или играю в карты. А ты чем занят? #speaker:{npc} #portrait:{npc_portrait}

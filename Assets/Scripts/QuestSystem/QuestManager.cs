@@ -146,6 +146,7 @@ public class QuestManager : MonoBehaviour
             {
                 DialogueManager.instance.UpdateVariable(item + "_quest_completed", true);
             }
+            DialogueManager.instance.needUpdateVariables = true;
         }
     }
 
