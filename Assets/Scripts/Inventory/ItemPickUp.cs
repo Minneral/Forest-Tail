@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class ItemPickUp : MonoBehaviour, IInteractable
 {
+    string itemPickUpId;
     public Item item;  // Предмет, с которым взаимодействует игрок
     private Inventory _inventory;
+
+    private void Awake()
+    {
+        itemPickUpId = name + item.type + item.itemName;
+
+        if (GameManager.instance.NotRestoringCollectedItem.Contains(itemPickUpId))
+            Destroy(gameObject);
+    }
 
     public Transform GetTransform()
     {
@@ -54,9 +63,12 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     void PickUp()
     {
-        if(item.ItemId == "Mushroom")
+        if (item.ItemId == "Mushroom")
+        {
             GameEventsManager.instance.miscEvents.MushroomCollected();
-            
+            GameManager.instance.ItemCollected(itemPickUpId);
+        }
+
         if (_inventory.AddItem(item))
         {
             Destroy(gameObject);

@@ -144,12 +144,6 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        // Определяем направление движения
-        // Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
-
         // Проверка нажатия клавиш для ходьбы и бега
         bool isMoving = direction.magnitude >= 0.1f;
         bool canRun = _stats.GetStamina() > 0;
@@ -213,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void StopMovement()
+    public void StopMovement()
     {
         speed = 0;
         velocity = new Vector3(0, velocity.y, 0); //  Vector3.zero;

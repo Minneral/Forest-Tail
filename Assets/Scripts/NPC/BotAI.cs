@@ -33,10 +33,18 @@ public class BotAI : MonoBehaviour
 
     private NPCStats stats;
     private Vector3 lastPlayerPosition;
-
-
     public Animator animator; // Ссылка на Animator для анимаций бота
     public LayerMask whatIsGround; // Слой, указывающий, что является землей для патрулирования
+
+    public string NPCId { get; private set; }
+
+    private void Awake()
+    {
+        NPCId = name + GetComponent<NPCStats>().type;
+
+        if (GameManager.instance.EnemiesEliminated.Contains(NPCId))
+            Destroy(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +52,7 @@ public class BotAI : MonoBehaviour
         GameEventsManager.instance.npcEvents.onNPCDeath += Death;
         GameEventsManager.instance.playerEvents.onPlayerDeath += HandlePlayerDeath;
         stats = GetComponent<NPCStats>();
-        player = GameObject.FindWithTag("Player").transform;
+        player = GameObject.Find("Player").transform;
     }
 
     private void OnDisable()
@@ -123,7 +131,7 @@ public class BotAI : MonoBehaviour
 
     void Patrol()
     {
-        animator.Play("goblin_walking");
+        animator.Play("walking");
         animator.SetBool("isWalking", true);
 
         if (!walkPointSet) SearchWalkPoint();

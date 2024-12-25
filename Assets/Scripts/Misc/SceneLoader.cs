@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class SceneLoader : MonoBehaviour
 {
-    public static Vector3 lastPosition;
+    private static bool exitingCave = false;
 
     private void OnEnable()
     {
@@ -15,34 +16,35 @@ public class SceneLoader : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        var player = GameObject.FindWithTag("Player");
-        if (scene.name == "Cave")
-        {
-            if (player != null)
-            {
-                player.transform.position = new Vector3(0, 0, 0);
-            }
-        }
-        else if (scene.name == "World")
-        {
-            if (player != null)
-            {
-                // player.transform.position = lastPosition;
-            }
-        }
-    }
-
     public void EnterCave()
     {
-        lastPosition = GameObject.FindWithTag("Player").transform.position;
         SceneManager.LoadScene("Cave"); // Загрузка новой сцены
     }
 
     public void ExitCave()
     {
+        exitingCave = true;
         SceneManager.LoadScene("World"); // Загрузка новой сцены
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        var player = GameObject.Find("Player");
+
+        if (scene.name == "Cave")
+        {
+            player.GetComponent<CharacterController>().enabled = false;
+            player.transform.position = new Vector3(10, 0, 5);
+            player.GetComponent<CharacterController>().enabled = true;
+        }
+        else if (scene.name == "World" && exitingCave)
+        {
+            player.GetComponent<CharacterController>().enabled = false;
+            player.transform.position = new Vector3(240, 20, 157);
+            player.transform.rotation = Quaternion.Euler(0, -90, 0);
+            exitingCave = false;
+            player.GetComponent<CharacterController>().enabled = true;
+        }
     }
 
     void OnTriggerEnter(Collider other)

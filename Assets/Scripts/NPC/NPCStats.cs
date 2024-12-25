@@ -31,6 +31,7 @@ public class NPCStats : MonoBehaviour
         if (currentHealth <= 0)
         {
             GameEventsManager.instance.npcEvents.NPCDeath(type);
+            GameManager.instance.EnemyEliminated(GetComponent<BotAI>().NPCId);
         }
     }
 

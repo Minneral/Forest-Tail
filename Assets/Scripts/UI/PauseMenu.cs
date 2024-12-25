@@ -67,6 +67,11 @@ public class PauseMenu : MonoBehaviour, IScreen
     public void LoadMainMenu()
     {
         Time.timeScale = 1f;
+        var objectsToDestroy = GameObject.FindObjectsOfType<DontDestroy>();
+        foreach (DontDestroy obj in objectsToDestroy)
+        {
+            Destroy(obj.gameObject);
+        }
         SceneManager.LoadScene("MainMenu");
     }
 

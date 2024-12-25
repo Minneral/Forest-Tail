@@ -47,11 +47,21 @@ public class DeathPanelUI : MonoBehaviour, IScreen
 
     public void LoadMainScreen()
     {
+        var objectsToDestroy = GameObject.FindObjectsOfType<DontDestroy>();
+        foreach (DontDestroy obj in objectsToDestroy)
+        {
+            Destroy(obj.gameObject);
+        }
         SceneManager.LoadScene("MainMenu");
     }
 
     public void LoadLoadingScreen()
     {
+        var objectsToDestroy = GameObject.FindObjectsOfType<DontDestroy>();
+        foreach (DontDestroy obj in objectsToDestroy)
+        {
+            Destroy(obj.gameObject);
+        }
         SceneManager.LoadScene("LoadingScreen");
     }
 
