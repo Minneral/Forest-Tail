@@ -36,5 +36,5 @@ public class Item : ScriptableObject
 
 public enum ItemType
 {
-    Resource, Food, Weapon, Armor, Misc
+    Resource, Food, Weapon, Armor, Misc, Quest
 }

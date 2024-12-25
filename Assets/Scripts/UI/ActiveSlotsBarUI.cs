@@ -56,6 +56,13 @@ public class ActiveSlotsBarUI : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {
+                var active = _inventory.slots.Take(_slotsUI.Length).ToArray()[i];
+                if (active.item.type == ItemType.Food)
+                {
+                    _inventory.RemoveItem(active.item);
+                    _player.GetComponent<PlayerStats>().Heal(active.item.nutritionValue);
+                    break;
+                }
                 if (ActiveSlotIndex == i + 1)
                 {
                     ActiveSlotIndex = 0; // Reset if the same slot is selected twice

@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
         // Проверка нажатия клавиш для ходьбы и бега
         bool isMoving = direction.magnitude >= 0.1f;
         bool canRun = _stats.GetStamina() > 0;
-        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift) && canRun; // Бег только при зажатом Shift, W и наличии стамины
+        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift) && !GetComponent<Inventory>().IsOverLoaded && canRun; // Бег только при зажатом Shift, W и наличии стамины
 
         // Определяем скорость в зависимости от состояния
         speed = isRunning ? runSpeed : (isMoving ? walkSpeed : 0);
