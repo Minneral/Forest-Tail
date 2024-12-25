@@ -40,7 +40,7 @@ public class InputEvents
     public event Action onSubmitPressed;
     public void SubmitPressed()
     {
-        if (Memories.instance.isActive || DeathPanelUI.instance.IsActive())
+        if (GameEventsManager.instance.IsAnyUIVisible(typeof(DialogueManager)))
             return;
 
         if (!GameEventsManager.instance.IsAnyUIVisible())

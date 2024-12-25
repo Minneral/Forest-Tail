@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuestManager : MonoBehaviour
 {
@@ -34,8 +36,8 @@ public class QuestManager : MonoBehaviour
         GameEventsManager.instance.questEvents.onStartQuest += StartQuest;
         GameEventsManager.instance.questEvents.onAdvanceQuest += AdvanceQuest;
         GameEventsManager.instance.questEvents.onFinishQuest += FinishQuest;
-
         GameEventsManager.instance.questEvents.onQuestStepStateChange += QuestStepStateChange;
+        SceneManager.sceneLoaded += OnSceneLoaded;
 
         // GameEventsManager.instance.playerEvents.onPlayerLevelChange += PlayerLevelChange;
     }
@@ -45,10 +47,13 @@ public class QuestManager : MonoBehaviour
         GameEventsManager.instance.questEvents.onStartQuest -= StartQuest;
         GameEventsManager.instance.questEvents.onAdvanceQuest -= AdvanceQuest;
         GameEventsManager.instance.questEvents.onFinishQuest -= FinishQuest;
-
         GameEventsManager.instance.questEvents.onQuestStepStateChange -= QuestStepStateChange;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-        // GameEventsManager.instance.playerEvents.onPlayerLevelChange -= PlayerLevelChange;
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        Start();
     }
 
     private void Start()
@@ -82,12 +87,6 @@ public class QuestManager : MonoBehaviour
     {
         // start true and prove to be false
         bool meetsRequirements = true;
-
-        // check player level requirements
-        if (currentPlayerLevel < quest.info.levelRequirement)
-        {
-            meetsRequirements = false;
-        }
 
         // check quest prerequisites for completion
         foreach (QuestInfoSO prerequisiteQuestInfo in quest.info.questPrerequisites)

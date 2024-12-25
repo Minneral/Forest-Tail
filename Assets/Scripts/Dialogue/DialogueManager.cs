@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -43,16 +45,75 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string QUEST_TAG = "quest";
     private const string PUZZLE_TAG = "puzzle";
-
     private DialogueVariables dialogueVariables;
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Переинициализация объектов
+        Initialize();
+    }
+
+    private void OnSceneUnloaded(Scene scene)
+    {
+        dialoguePanel.SetActive(true);
+        foreach (var choice in choices)
+        {
+            choice.SetActive(true);
+        }
+    }
+
+    void Initialize()
+    {
+        dialoguePanel = GameObject.Find("DialogueUI");
+        dialogueText = GameObject.Find("dialogueText").GetComponent<TextMeshProUGUI>();
+        displayNameText = GameObject.Find("dialogueName").GetComponent<TextMeshProUGUI>();
+        portraitAnimator = GameObject.Find("dialogueImage").GetComponent<Animator>();
+        GameObject tchoices = GameObject.Find("Choices");
+
+        List<GameObject> choiceChildren = new List<GameObject>();
+        foreach (Transform child in tchoices.transform)
+        {
+            choiceChildren.Add(child.gameObject);
+        }
+
+        choiceChildren.Sort((GameObject go1, GameObject go2) => go1.name.CompareTo(go2.name));
+
+        choices = choiceChildren.ToArray();
+
+        dialogueIsPlaying = false;
+        dialoguePanel.SetActive(false);
+
+        // get all of the choices text 
+        choicesText = new TextMeshProUGUI[choices.Length];
+        int index = 0;
+        foreach (GameObject choice in choices)
+        {
+            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
+            index++;
+        }
+    }
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
-            Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+            Destroy(this);
         }
-        instance = this;
+        else
+        {
+            instance = this;
+        }
 
         dialogueVariables = new DialogueVariables(loadGlobalsJSON);
     }
@@ -79,15 +140,6 @@ public class DialogueManager : MonoBehaviour
     {
         GameEventsManager.instance.inputEvents.onSubmitPressed -= OnSubmit;
         GameEventsManager.instance.puzzleEvents.onMemoriesEnd -= UnLockContinue;
-    }
-
-    private void Update()
-    {
-        // return right away if dialogue isn't playing
-        if (!dialogueIsPlaying)
-        {
-            return;
-        }
     }
 
     void UnLockContinue()
@@ -246,6 +298,8 @@ public class DialogueManager : MonoBehaviour
 
     private void HandleTags(List<string> currentTags)
     {
+        Debug.Log("Try to Handle tags");
+        Debug.Log("Tags: " + currentTags.ToString());
         // loop through each tag and handle it accordingly
         foreach (string tag in currentTags)
         {

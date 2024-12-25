@@ -16,7 +16,6 @@ MonoBehaviour:
   displayName: "\u0421\u0431\u043E\u0440 \u0433\u0440\u0438\u0431\u043E\u0432"
   description: "\u041D\u0430\u0439\u0434\u0438 \u0432 \u043B\u0435\u0441\u0443 \u0438
     \u0441\u043E\u0431\u0435\u0440\u0438 6 \u0433\u0440\u0438\u0431\u043E\u0432"
-  levelRequirement: 0
   questPrerequisites: []
   questStepPrefabs:
   - {fileID: 120301859911019212, guid: 52d1c3fad65eca8458e409d71e6bb76f, type: 3}

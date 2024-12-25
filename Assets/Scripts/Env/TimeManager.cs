@@ -6,7 +6,6 @@ using UnityEngine.Rendering;
 public class TimeManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timeText;
-
     [SerializeField] Light sun;
     [SerializeField] Light moon;
     [SerializeField] AnimationCurve lightIntensityCurve;

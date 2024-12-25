@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - NPC
+  - UIChoise
+  - DialogueAnimator
+  - DialogueName
+  - DialogueText
+  - Memories
   layers:
   - Default
   - TransparentFX

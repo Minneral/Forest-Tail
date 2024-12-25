@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Memories : MonoBehaviour
 {
@@ -13,7 +15,6 @@ public class Memories : MonoBehaviour
     [SerializeField] private Vector2 gridSize = new Vector2(4, 4); // Размер сетки (столбцы, строки)
     [SerializeField] private float spacing = 1.5f; // Расстояние между картами
     [SerializeField] private float botChance = 0.7f; // Шанс, что бот найдет пару
-    public static Memories instance { get; private set; }
     public bool isActive;
     private List<MemoriesCard> cardList;
     private List<MemoriesCard> openedCards = new List<MemoriesCard>();
@@ -23,27 +24,16 @@ public class Memories : MonoBehaviour
     private bool isCardLocked = false; // Флаг блокировки карт
     private bool isPlayerTurn = true; // Чей ход: true - игрок, false - бот
 
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(instance);
-        }
-        else
-        {
-            instance = this;
-        }
-    }
-
     private void OnEnable()
     {
         GameEventsManager.instance.puzzleEvents.onMemoriesStart += StartGame;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameEventsManager.instance.puzzleEvents.onMemoriesStart -= StartGame;
     }
+
 
     private void Start()
     {

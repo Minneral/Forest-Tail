@@ -11,7 +11,7 @@ public class BotAI : MonoBehaviour
     public State currentState; // Текущее состояние
 
     public NavMeshAgent agent; // Компонент NavMeshAgent для перемещения бота
-    public Transform player; // Ссылка на объект игрока для отслеживания его позиции
+    Transform player; // Ссылка на объект игрока для отслеживания его позиции
     public float patrolRadius = 10f; // Радиус патрулирования
     public float chaseRadius = 5f; // Радиус преследования игрока
     public float interactRadius = 3f; // Радиус для начала взаимодействия
@@ -44,6 +44,7 @@ public class BotAI : MonoBehaviour
         GameEventsManager.instance.npcEvents.onNPCDeath += Death;
         GameEventsManager.instance.playerEvents.onPlayerDeath += HandlePlayerDeath;
         stats = GetComponent<NPCStats>();
+        player = GameObject.FindWithTag("Player").transform;
     }
 
     private void OnDisable()

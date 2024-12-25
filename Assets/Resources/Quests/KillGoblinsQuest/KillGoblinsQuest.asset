@@ -17,7 +17,6 @@ MonoBehaviour:
     \u0433\u043E\u0431\u043B\u0438\u043D\u044B?"
   description: "\u0423\u0431\u0435\u0439\u0442\u0435 2 \u0433\u043E\u0431\u043B\u0438\u043D\u043E\u0432
     \u0432 \u043E\u043A\u0440\u0443\u0433\u0435"
-  levelRequirement: 0
   questPrerequisites: []
   questStepPrefabs:
   - {fileID: 8721508932210966555, guid: 3d0cd47198f29bb439f78b3b4334f2e9, type: 3}

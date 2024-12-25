@@ -12,7 +12,6 @@ public class QuestInfoSO : ScriptableObject
     public string description;
 
     [Header("Requirements")]
-    public int levelRequirement;
     public QuestInfoSO[] questPrerequisites;
 
     [Header("Steps")]

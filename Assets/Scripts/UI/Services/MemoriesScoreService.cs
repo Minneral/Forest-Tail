@@ -7,6 +7,7 @@ public class MemoriesScoreService : MonoBehaviour
 {
     public Actor actor;
     TextMeshProUGUI field;
+    Memories instance;
     public enum Actor
     {
         PLAYER,
@@ -16,6 +17,7 @@ public class MemoriesScoreService : MonoBehaviour
     private void Start()
     {
         field = GetComponent<TextMeshProUGUI>();
+        instance = GameObject.FindWithTag("Memories").GetComponent<Memories>();
 
         if (field == null)
         {
@@ -35,11 +37,11 @@ public class MemoriesScoreService : MonoBehaviour
             switch (actor)
             {
                 case Actor.PLAYER:
-                    score = Memories.instance.GetScore().PlayerScore.ToString();
+                    score = instance.GetScore().PlayerScore.ToString();
                     break;
 
                 case Actor.BOT:
-                    score = Memories.instance.GetScore().BotScore.ToString();
+                    score = instance.GetScore().BotScore.ToString();
                     break;
                 default:
                     score = "";
