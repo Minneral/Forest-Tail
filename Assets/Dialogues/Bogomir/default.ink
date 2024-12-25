@@ -18,7 +18,7 @@ VAR npc_portrait = "bogomir_default"
             Слышал, у вас тут неспокойно. Может, помощь какая нужна? #speaker:{player_name} #portrait:player_default
             Точно! Тут гоблины шастают, покоя не дают. Поможешь от них избавиться? Благодарен буду! #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
             Добро, посмотрю, что можно сделать. Где их в последний раз видели? #speaker:{player_name} #portrait:player_default
-            Видел их, как убегали из деревни через второй вход. На первом перекрестке налево свернули. Далеко они не ушли, это точно. #quest:bogomir #speaker:{npc} #portrait:{npc_portrait}
+            Видел их, как убегали из деревни через второй вход. На первом перекрестке налево свернули. Далеко они не ушли, это точно. #speaker:{npc} #portrait:{npc_portrait}
             Ладно, пойду посмотрю. #speaker:{player_name} #portrait:player_default
             -> UnifiedChoices
     - else:
