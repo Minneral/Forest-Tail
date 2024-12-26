@@ -10,6 +10,7 @@ TagManager:
   - DialogueName
   - DialogueText
   - Memories
+  - MasterVolume
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     private Animator _animator;
     private PlayerStats _stats;
+    public AudioClip PunchClip;
 
     [Header("GameObjects")]
     public Transform attackPoint;      // Точка, откуда будет исходить атака
@@ -64,6 +65,7 @@ public class PlayerCombat : MonoBehaviour
 
             foreach (Collider enemy in hitEnemies)
             {
+                MasterVolume.instance.audioSource.PlayOneShot(PunchClip);
                 NPCStats foe = enemy.GetComponent<NPCStats>();
 
                 foe.TakeDamage(attackDamage);

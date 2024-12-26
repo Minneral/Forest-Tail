@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: d0721720e41f824419c8c50d7a73a8c9, type: 2}
+  pickupClip: {fileID: 8300000, guid: 51e4f62ac8a612046ae8e0513c479a44, type: 3}
 --- !u!135 &5443347621603246253
 SphereCollider:
   m_ObjectHideFlags: 0

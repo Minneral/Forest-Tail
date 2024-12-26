@@ -1,51 +1,107 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using TMPro;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer; // Ссылка на AudioMixer для регулировки громкости
-    public Slider volumeSlider;   // Слайдер для регулировки громкости
-    public TMPro.TMP_Dropdown qualityDropdown; // Выпадающий список для выбора качества графики
+    public AudioMixer audioMixer;
+    public Slider volumeSlider;
+    public TMP_Dropdown qualityDropdown;
+    public TMP_Dropdown resolutionDropdown;
+    public Slider mouseSensitivitySlider;
 
-    // Загружаем настройки при старте сцены
+    private Resolution[] resolutions;
+
     void Start()
     {
-        // Загружаем сохранённые настройки громкости
-        float volume = PlayerPrefs.GetFloat("volume", 0.75f); // Значение по умолчанию 0.75
+        // Загрузка громкости
+        float volume = PlayerPrefs.GetFloat("volume", 0.75f);
         volumeSlider.value = volume;
-        SetVolume(volume); // Применяем сохранённый уровень громкости
+        SetVolume(volume);
 
-        // Загружаем сохранённое качество графики
-        int qualityIndex = PlayerPrefs.GetInt("quality", 2); // Значение по умолчанию - среднее качество
+        // Загрузка качества графики
+        int qualityIndex = PlayerPrefs.GetInt("quality", 2);
+        qualityDropdown.ClearOptions();
+        List<string> qualityOptions = new List<string>(QualitySettings.names);
+        qualityDropdown.AddOptions(qualityOptions);
         qualityDropdown.value = qualityIndex;
-        SetQuality(qualityIndex); // Применяем сохранённое качество
+        qualityDropdown.RefreshShownValue();
+        SetQuality(qualityIndex);
 
+        // Загрузка чувствительности мыши
+        float mouseSensitivity = PlayerPrefs.GetFloat("mouseSensitivity", 1.0f);
+        mouseSensitivitySlider.value = mouseSensitivity;
+        SetMouseSensitivity(mouseSensitivity);
+
+        // Загрузка разрешения экрана
+        resolutions = Screen.resolutions;
+        List<string> resOptions = new List<string>();
+        int currentResolutionIndex = 0;
+
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = $"{resolutions[i].width}x{resolutions[i].height} {resolutions[i].refreshRate}Hz";
+            resOptions.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width &&
+                resolutions[i].height == Screen.currentResolution.height &&
+                resolutions[i].refreshRate == Screen.currentResolution.refreshRate)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+
+        resolutionDropdown.ClearOptions();
+        resolutionDropdown.AddOptions(resOptions);
+
+        int savedResolutionIndex = PlayerPrefs.GetInt("resolutionIndex", currentResolutionIndex);
+        resolutionDropdown.value = savedResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+        SetResolution(savedResolutionIndex);
+
+        // Назначение слушателей
+        volumeSlider.onValueChanged.RemoveAllListeners();
+        volumeSlider.onValueChanged.AddListener(SetVolume);
+
+        qualityDropdown.onValueChanged.RemoveAllListeners();
+        qualityDropdown.onValueChanged.AddListener(SetQuality);
+
+        mouseSensitivitySlider.onValueChanged.RemoveAllListeners();
+        mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
+
+        resolutionDropdown.onValueChanged.RemoveAllListeners();
+        resolutionDropdown.onValueChanged.AddListener(SetResolution);
     }
 
-    // Метод для изменения громкости
     public void SetVolume(float volume)
     {
-        // Сохраняем значение громкости в PlayerPrefs
-        PlayerPrefs.SetFloat("volume", volume);
-        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20); // Настройка громкости через AudioMixer
+        PlayerPrefs.SetFloat("volume", volume); // Сохраняем значение
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
     }
 
-    // Метод для изменения качества графики
     public void SetQuality(int qualityIndex)
     {
-        // Сохраняем выбранное качество в PlayerPrefs
-        PlayerPrefs.SetInt("quality", qualityIndex);
-        QualitySettings.SetQualityLevel(qualityIndex); // Устанавливаем качество графики
+        PlayerPrefs.SetInt("quality", qualityIndex); // Сохраняем значение
+        QualitySettings.SetQualityLevel(qualityIndex);
     }
 
-    // Метод для возврата в главное меню
+    public void SetResolution(int resolutionIndex)
+    {
+        PlayerPrefs.SetInt("resolutionIndex", resolutionIndex); // Сохраняем значение
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+
+    public void SetMouseSensitivity(float sensitivity)
+    {
+        PlayerPrefs.SetFloat("mouseSensitivity", sensitivity); // Сохраняем значение
+        // Здесь можно добавить код для изменения чувствительности в скрипте управления
+    }
+
     public void BackToMainMenu()
     {
-        // Сцена с главным меню может быть загружена здесь
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
-
 }

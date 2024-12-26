@@ -17,7 +17,7 @@ VAR npc_portrait = "vseslav_default"
         {vseslav_quest_canstart == false:
         * [Могу ли я как-нибудь тебе помочь, Волхв?]
             Я странствую и помогаю людям. Быть может, тебе что-нибудь нужно, старче? #speaker:{player_name} #portrait:player_default
-            Если что и нужно, то это задание не для слабонервных. Сначала узнай у других, нужна ли им помощь. А если и после этого будешь готов - возвращайся. #speaker:{npc} #portrait:{npc_portrait}
+            Если что и нужно, то это задание не для слабонервных. Сначала узнай у других, нужна ли им помощь. А если и после этого будешь готов – возвращайся. #speaker:{npc} #portrait:{npc_portrait}
             ->UnifiedChoices
         - else:
         * [Я помог всем жителям]
@@ -50,7 +50,7 @@ VAR npc_portrait = "vseslav_default"
     }
 
     + Тяжело ли Волхвское ремесло? #speaker:{player_name} #portrait:player_default
-        Тяжело, да по-своему приятно. Людям помогать — дело непростое, а знания старинные беречь ещё сложнее. Но, как говорится, кто, если не мы? #speaker:{npc} #portrait:{npc_portrait}
+        Тяжело, да по-своему приятно. Людям помогать – дело непростое, а знания старинные беречь ещё сложнее. Но, как говорится, кто, если не мы? #speaker:{npc} #portrait:{npc_portrait}
         -> UnifiedChoices
 
     * Правду говорят, что вы, волхвы, с духами говорите? #speaker:{player_name} #portrait:player_default

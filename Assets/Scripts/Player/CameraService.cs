@@ -11,6 +11,9 @@ public class CameraService : MonoBehaviour
     private bool previousState;
     public static CameraService Instance;
 
+    private float legacy_axis_X = 300;
+    private float legacy_axis_Y = 2;
+
     private float default_axis_X;
     private float default_axis_Y;
 
@@ -30,8 +33,11 @@ public class CameraService : MonoBehaviour
     {
         // Инициализируем состояние камеры
         previousState = IsLocked;
-        default_axis_X = freeLook.m_XAxis.m_MaxSpeed;
-        default_axis_Y = freeLook.m_YAxis.m_MaxSpeed;
+
+        float multiplier = PlayerPrefs.GetFloat("mouseSensitivity");
+
+        default_axis_X = legacy_axis_X * multiplier;
+        default_axis_Y = legacy_axis_Y * multiplier;
 
         UpdateCameraLockState();
     }

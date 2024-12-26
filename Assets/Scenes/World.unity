@@ -2315,9 +2315,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1272256560207467272, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
+      propertyPath: runClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 450bab63b9d1aec46a89310e122bbaca, type: 3}
+    - target: {fileID: 1272256560207467272, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
+      propertyPath: dodgClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4d36a86d6263d074ea8225a5dc85a5f5, type: 3}
+    - target: {fileID: 1272256560207467272, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
+      propertyPath: jumpClip
+      value: 
+      objectReference: {fileID: 8300000, guid: e3199203755cf104e954e0b52d662a4c, type: 3}
+    - target: {fileID: 1272256560207467272, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
       propertyPath: runSpeed
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1272256560207467272, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
+      propertyPath: footStepClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 115352048ef8e774ab5d872f9f9c1235, type: 3}
     - target: {fileID: 1272256560207467272, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
       propertyPath: dodgeDistance
       value: 2
@@ -2382,6 +2398,10 @@ PrefabInstance:
       propertyPath: staminaRegenerateValue
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 8336339589428686901, guid: 9475dea70a0360e4791ab348c7f15f57, type: 3}
+      propertyPath: PunchClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0c905bc34f359004d8efccbaec7ffe1a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8769,6 +8789,10 @@ PrefabInstance:
       value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
+      propertyPath: dialogueClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4d36a86d6263d074ea8225a5dc85a5f5, type: 3}
+    - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
       propertyPath: dialogueText
       value: 
       objectReference: {fileID: 7601006023983132939}
@@ -8780,6 +8804,10 @@ PrefabInstance:
       propertyPath: displayNameText
       value: 
       objectReference: {fileID: 1567035192423233083}
+    - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
+      propertyPath: dialogueContinue
+      value: 
+      objectReference: {fileID: 8300000, guid: 2075c3820a2b9e64a89d9d9f397f0d61, type: 3}
     - target: {fileID: 708926390046887790, guid: dde40716915e3ac4d81da52f16718a5a, type: 3}
       propertyPath: portraitAnimator
       value: 
@@ -13885,6 +13913,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5701527035358331351, guid: c5dca2a8aa1338e49bb3e5dcbf8be7e9, type: 3}
+      propertyPath: inventoryClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c6917c45a7ecfb49b50c72c57331d29, type: 3}
     - target: {fileID: 5838262956929648222, guid: c5dca2a8aa1338e49bb3e5dcbf8be7e9, type: 3}
       propertyPath: m_fontColor.b
       value: 0.8745098
@@ -14581,6 +14613,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8192852689534328757, guid: c5dca2a8aa1338e49bb3e5dcbf8be7e9, type: 3}
+      propertyPath: QuestClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a3b0acba0d9afb43a6c4f613a969987, type: 3}
     - target: {fileID: 8290351330740723157, guid: c5dca2a8aa1338e49bb3e5dcbf8be7e9, type: 3}
       propertyPath: m_Color.b
       value: 0.5019608

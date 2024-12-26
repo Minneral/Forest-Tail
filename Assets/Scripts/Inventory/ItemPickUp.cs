@@ -6,6 +6,7 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 {
     string itemPickUpId;
     public Item item;  // Предмет, с которым взаимодействует игрок
+    public AudioClip pickupClip;
     private Inventory _inventory;
 
     private void Awake()
@@ -63,6 +64,7 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     void PickUp()
     {
+        MasterVolume.instance.audioSource.PlayOneShot(pickupClip);
         if (item.ItemId == "Mushroom")
         {
             GameEventsManager.instance.miscEvents.MushroomCollected();

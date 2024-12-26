@@ -11,6 +11,8 @@ public class DialogueManager : MonoBehaviour
 {
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.04f;
+    public AudioClip dialogueClip;
+    public AudioClip dialogueContinue;
 
     [Header("Load Globals JSON")]
     [SerializeField] private TextAsset loadGlobalsJSON;
@@ -170,6 +172,7 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJSON, string npcName)
     {
+        MasterVolume.instance.audioSource.PlayOneShot(dialogueClip);
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
@@ -204,6 +207,7 @@ public class DialogueManager : MonoBehaviour
         }
         if (currentStory.canContinue)
         {
+            MasterVolume.instance.audioSource.PlayOneShot(dialogueContinue);
             // set text for the current dialogue line
             if (displayLineCoroutine != null)
             {

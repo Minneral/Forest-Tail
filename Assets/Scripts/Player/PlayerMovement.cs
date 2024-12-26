@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public AudioClip footStepClip;
+    public AudioClip runClip;
+    public AudioClip jumpClip;
+    public AudioClip dodgClip;
     private CharacterController _controller;
     private Animator _animator;
     private Transform _camera;
@@ -10,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerStats _stats;
     private InventoryUI _inventoryUI;
 
+    public float stepInterval = 0.5f;
+    private float stepTimer = 0;
     Vector3 direction;
     private float speed;
     public float turnSmoothTime = 0.1f;  // Время для плавного поворота
@@ -106,6 +112,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (_stats.GetStamina() >= jumpStaminaCost) // Проверяем, хватает ли стамины
             {
+                MasterVolume.instance.audioSource.PlayOneShot(jumpClip);
+
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 _animator.SetTrigger("Jumping");
                 _stats.TakeStamina(jumpStaminaCost); // Снимаем стамину за прыжок
@@ -117,6 +125,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsGrounded() && canDodge)
         {
+            MasterVolume.instance.audioSource.PlayOneShot(dodgClip);
             canDodge = false;
             _animator.SetTrigger("Dodge");
             _stats.TakeStamina(dodgeStaminaCost); // Снимаем стамину за отскок
@@ -144,21 +153,27 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        // Проверка нажатия клавиш для ходьбы и бега
         bool isMoving = direction.magnitude >= 0.1f;
         bool canRun = _stats.GetStamina() > 0;
-        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift) && !GetComponent<Inventory>().IsOverLoaded && canRun; // Бег только при зажатом Shift, W и наличии стамины
+        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift) && !GetComponent<Inventory>().IsOverLoaded && canRun;
 
-        // Определяем скорость в зависимости от состояния
         speed = isRunning ? runSpeed : (isMoving ? walkSpeed : 0);
 
-        // Обновляем состояние анимации
         _animator.SetBool("isWalking", isMoving && !isRunning);
         _animator.SetBool("isRunning", isRunning);
 
-        // Если есть движение, поворачиваем персонажа и двигаем его
         if (isMoving)
         {
+            stepTimer += Time.deltaTime;
+            if (stepTimer >= stepInterval)
+            {
+                if (!MasterVolume.instance.audioSource.isPlaying) // Проверяем, не воспроизводится ли уже звук
+                {
+                    MasterVolume.instance.audioSource.PlayOneShot(footStepClip);
+                }
+                stepTimer = 0;
+            }
+
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
@@ -167,36 +182,35 @@ public class PlayerMovement : MonoBehaviour
             _controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        // // Проверка земли
-        // isGrounded = Physics.CheckSphere(_groundCheck.position, groundDistance);
-        // Debug.Log(isGrounded);
-
-        // Сбрасываем скорость падения, если на земле
         if (IsGrounded() && velocity.y < 0)
         {
             velocity.y = -2f;
         }
 
-        // Применяем гравитацию
         velocity.y += gravity * Time.deltaTime;
         _controller.Move(velocity * Time.deltaTime);
 
-        // Расход стамины при беге
         if (isRunning)
         {
-            staminaUsage += staminaCostPerSecond * Time.deltaTime; // Увеличиваем счетчик на основании времени кадра
-            int staminaToConsume = Mathf.CeilToInt(staminaUsage); // Округляем в большую сторону
+            staminaUsage += staminaCostPerSecond * Time.deltaTime;
+            int staminaToConsume = Mathf.CeilToInt(staminaUsage);
             if (staminaToConsume > 0)
             {
-                _stats.TakeStamina(staminaToConsume); // Снимаем стамину
-                staminaUsage -= staminaToConsume; // Уменьшаем счетчик на израсходованное
+                if (!MasterVolume.instance.audioSource.isPlaying) // Проверяем, не воспроизводится ли уже звук
+                {
+                    MasterVolume.instance.audioSource.PlayOneShot(runClip);
+                }
+                _stats.TakeStamina(staminaToConsume);
+                staminaUsage -= staminaToConsume;
             }
         }
         else
         {
-            staminaUsage = 0f; // Сбрасываем счетчик, если не бежим
+            staminaUsage = 0f;
         }
     }
+
+
 
     // Добавьте проверку слоя при помощи LayerMask
     bool IsGrounded()

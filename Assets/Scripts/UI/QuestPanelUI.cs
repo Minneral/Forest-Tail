@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class QuestPanelUI : MonoBehaviour, IScreen
 {
+    public AudioClip QuestClip;
     public GameObject hub;
     public Transform inProgressContent;
     public Transform completedContent;
@@ -91,6 +92,7 @@ public class QuestPanelUI : MonoBehaviour, IScreen
             isActive = System.Convert.ToBoolean(state);
 
 
+        MasterVolume.instance.audioSource.PlayOneShot(QuestClip);
         hub.SetActive(isActive);
     }
 

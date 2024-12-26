@@ -8,6 +8,7 @@ public class InventoryUI : MonoBehaviour, IScreen
     GameObject _background;
     GameObject _inventory;
     public bool isActive { get; private set; }
+    public AudioClip inventoryClip;
     public static InventoryUI Instance;
 
     private void Awake()
@@ -77,6 +78,8 @@ public class InventoryUI : MonoBehaviour, IScreen
         else
             isActive = Convert.ToBoolean(state);
 
+
+        MasterVolume.instance.audioSource.PlayOneShot(inventoryClip);
 
         _background.SetActive(isActive);
         _inventory.SetActive(isActive);
