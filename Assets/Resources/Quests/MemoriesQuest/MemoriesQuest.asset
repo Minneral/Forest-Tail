@@ -19,6 +19,6 @@ MonoBehaviour:
   questPrerequisites: []
   questStepPrefabs:
   - {fileID: 1191162191574738452, guid: 0e535d26c3d2d5f4ea1235d63d134b32, type: 3}
-  rewardPrefab: {fileID: 0}
+  rewardPrefab: {fileID: 1191162191574738452, guid: 95103d38062908242b694bd58508d962, type: 3}
   NPCAssignerTag:
   - mikolaMemories

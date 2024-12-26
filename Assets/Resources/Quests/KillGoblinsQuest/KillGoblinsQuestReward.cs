@@ -6,6 +6,6 @@ public class KillGoblinsQuestReward : QuestReward
 {
     public override void ClaimRewards()
     {
-        this.stats.Heal(100);
+        this.stats.Heal(25);
     }
 }

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4601931786260117256
+--- !u!1 &1191162191574738452
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8832274823041033734}
-  - component: {fileID: 2431879434796296746}
+  - component: {fileID: 1839458504468464651}
+  - component: {fileID: -6768337456288364592}
   m_Layer: 0
-  m_Name: KillGoblinsReward
+  m_Name: MemoriesReward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8832274823041033734
+--- !u!4 &1839458504468464651
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4601931786260117256}
+  m_GameObject: {fileID: 1191162191574738452}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,18 +32,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2431879434796296746
+--- !u!114 &-6768337456288364592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4601931786260117256}
+  m_GameObject: {fileID: 1191162191574738452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45c3a8722bbf1343ad6167ec781d7b4, type: 3}
+  m_Script: {fileID: 11500000, guid: cb45a1b3512b93446ad490f39573a3f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-  - item: {fileID: 11400000, guid: e0102d9620bf4634ab2c04ed2d2b63d0, type: 2}
-    amount: 2
+  - item: {fileID: 11400000, guid: f491cc9b62994a542968fd2a754f0e92, type: 2}
+    amount: 1

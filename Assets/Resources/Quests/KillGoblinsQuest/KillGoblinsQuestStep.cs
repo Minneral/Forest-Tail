@@ -6,7 +6,7 @@ using UnityEngine;
 public class KillGoblinsQuestStep : QuestStep
 {
     private int killed = 0;
-    private int killsToComplete = 2;
+    private int killsToComplete = 3;
 
     private void OnEnable()
     {

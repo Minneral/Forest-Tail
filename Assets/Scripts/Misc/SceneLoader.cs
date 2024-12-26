@@ -52,9 +52,26 @@ public class SceneLoader : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (SceneManager.GetActiveScene().name != "Cave")
-                EnterCave();
+            {
+                if (QuestManager.instance.IsQuestStateEqualOrGreater("KillTrollQuest", QuestState.CAN_START))
+                {
+                    EnterCave();
+                }
+                else
+                {
+                    HintManager.instance.ShowHint("На данный момент эта локация недоступна");
+                }
+            }
             else
+            {
                 ExitCave();
+            }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (HintManager.instance.isActive)
+            HintManager.instance.HideHint();
     }
 }

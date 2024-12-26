@@ -8,6 +8,7 @@ public class HintManager : MonoBehaviour
     public static HintManager instance { get; private set; }
     public TextMeshProUGUI HintMessage;
     public float fadeDuration = .25f;
+    public bool isActive { get; private set; }
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class HintManager : MonoBehaviour
     {
         if (HintMessage != null)
         {
+            isActive = true;
             StopAllCoroutines(); // Останавливаем все запущенные корутины, чтобы избежать конфликтов
             HintMessage.alpha = 0;
             HintMessage.text = message;
@@ -39,6 +41,7 @@ public class HintManager : MonoBehaviour
     {
         if (HintMessage != null)
         {
+            isActive = false;
             StopAllCoroutines(); // Останавливаем все запущенные корутины, чтобы избежать конфликтов
             StartCoroutine(FadeOut());
         }

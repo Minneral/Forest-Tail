@@ -108,6 +108,11 @@ public class QuestManager : MonoBehaviour
             if (quest.state == QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
                 ChangeQuestState(quest.info.id, QuestState.CAN_START);
+
+                foreach (var item in quest.info.NPCAssignerTag)
+                {
+                    DialogueManager.instance.UpdateVariable(item + "_quest_canstart", true);
+                }
             }
         }
     }
@@ -198,6 +203,13 @@ public class QuestManager : MonoBehaviour
             Debug.LogError("ID not found in the Quest Map: " + id);
         }
         return quest;
+    }
+
+    public bool IsQuestStateEqualOrGreater(string id, QuestState currentOrGreater)
+    {
+        var quest = GetQuestById(id);
+
+        return quest.state >= currentOrGreater;
     }
 
     private void OnApplicationQuit()

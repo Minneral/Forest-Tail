@@ -59,8 +59,8 @@ public class ActiveSlotsBarUI : MonoBehaviour
                 var active = _inventory.slots.Take(_slotsUI.Length).ToArray()[i];
                 if (active.item.type == ItemType.Food)
                 {
-                    _inventory.RemoveItem(active.item);
                     _player.GetComponent<PlayerStats>().Heal(active.item.nutritionValue);
+                    _inventory.RemoveItem(active.item);
                     break;
                 }
                 if (ActiveSlotIndex == i + 1)
