@@ -52,6 +52,7 @@ public class DeathPanelUI : MonoBehaviour, IScreen
         {
             Destroy(obj.gameObject);
         }
+        StartGameDialogue.wasShown = false;
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -62,6 +63,7 @@ public class DeathPanelUI : MonoBehaviour, IScreen
         {
             Destroy(obj.gameObject);
         }
+        StartGameDialogue.wasShown = false;
         SceneManager.LoadScene("LoadingScreen");
     }
 

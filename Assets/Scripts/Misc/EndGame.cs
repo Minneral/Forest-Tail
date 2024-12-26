@@ -17,6 +17,7 @@ public class EndGame : MonoBehaviour
                     Destroy(obj.gameObject);
                 }
                 GameEventsManager.instance.UnLockCursor();
+                StartGameDialogue.wasShown = false;
                 SceneManager.LoadScene("EndGame");
             }
         }

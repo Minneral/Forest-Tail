@@ -72,6 +72,7 @@ public class PauseMenu : MonoBehaviour, IScreen
         {
             Destroy(obj.gameObject);
         }
+        StartGameDialogue.wasShown = false;
         SceneManager.LoadScene("MainMenu");
     }
 
