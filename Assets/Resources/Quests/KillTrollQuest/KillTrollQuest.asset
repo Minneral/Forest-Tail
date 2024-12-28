@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bfb0d26937c03b4fb228ead303d8af2, type: 3}
+  m_Name: KillTrollQuest
+  m_EditorClassIdentifier: 
+  <id>k__BackingField: KillTrollQuest
+  displayName: "\u0423\u0431\u0438\u0439\u0446\u0430 \u0422\u0440\u043E\u043B\u043B\u0435\u0439"
+  description: "\u0412 \u043F\u0435\u0449\u0435\u0440\u0435 \u043D\u0435\u0434\u0430\u043B\u0435\u043A\u043E
+    \u043E\u0442 \u0434\u0435\u0440\u0435\u0432\u043D\u0438 \u043F\u043E\u0441\u0435\u043B\u0438\u043B\u0441\u044F
+    \u0442\u0440\u043E\u043B\u044C. \u0423\u043D\u0438\u0447\u0442\u043E\u0436\u044C\u0442\u0435
+    \u0435\u0433\u043E \u0438 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0439\u0442\u0435\u0441\u044C
+    \u043A \u0412\u0441\u0435\u0441\u043B\u0430\u0432\u0443"
+  questPrerequisites:
+  - {fileID: 11400000, guid: a907a372e3ea916418d0c6169a5d648e, type: 2}
+  - {fileID: 11400000, guid: 996f07e42e08f374d9b58a269b4bb689, type: 2}
+  - {fileID: 11400000, guid: 063791f409baffb45b019107bafd2930, type: 2}
+  questStepPrefabs:
+  - {fileID: 7968723064794991353, guid: 183e8244b2525574da3c21aade9fbf64, type: 3}
+  rewardPrefab: {fileID: 1191162191574738452, guid: 75759beea42cac249a2643cab9382453, type: 3}
+  NPCAssignerTag:
+  - vseslav

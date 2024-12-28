@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae5bda4a5b3bca418e0a82edf3fc92a, type: 3}
   m_Name: Diamond
   m_EditorClassIdentifier: 
+  itemId: Diamond
   type: 0
-  itemName: Item
-  itemDescription: Description
-  itemWeight: 1
-  icon: {fileID: 0}
-  stackAmount: 0
+  itemName: "\u0410\u043B\u043C\u0430\u0437"
+  itemDescription: "\u0410\u043B\u043C\u0430\u0437"
+  itemWeight: 5
+  icon: {fileID: 21300000, guid: bc2dfbe142d1de644b867d32163879fe, type: 3}
+  stackAmount: 10
   nutritionValue: 0
   damage: 0
   attackSpeed: 0

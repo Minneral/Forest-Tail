@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class ItemPickUp : MonoBehaviour, IInteractable
 {
+    string itemPickUpId;
     public Item item;  // Предмет, с которым взаимодействует игрок
+    public AudioClip pickupClip;
     private Inventory _inventory;
+
+    private void Awake()
+    {
+        itemPickUpId = name + item.type + item.itemName;
+
+        if (GameManager.instance.NotRestoringCollectedItem.Contains(itemPickUpId))
+            Destroy(gameObject);
+    }
 
     public Transform GetTransform()
     {
@@ -19,12 +29,12 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     public void OnDefocused()
     {
-        Debug.Log($"Item '{item.itemName}' of type '{item.GetType().Name}' is DeFocused");
+        HintManager.instance.HideHint();
     }
 
     public void OnFocused()
     {
-        Debug.Log($"Item '{item.itemName}' of type '{item.GetType().Name}' is OnFocused");
+        HintManager.instance.ShowHint("Нажмите E чтобы подобрать " + item.itemName);
     }
 
     // Start is called before the first frame update
@@ -54,6 +64,13 @@ public class ItemPickUp : MonoBehaviour, IInteractable
 
     void PickUp()
     {
+        MasterVolume.instance.audioSource.PlayOneShot(pickupClip);
+        if (item.ItemId == "Mushroom")
+        {
+            GameEventsManager.instance.miscEvents.MushroomCollected();
+            GameManager.instance.ItemCollected(itemPickUpId);
+        }
+
         if (_inventory.AddItem(item))
         {
             Destroy(gameObject);

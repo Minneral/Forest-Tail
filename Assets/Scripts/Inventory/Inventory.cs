@@ -1,84 +1,32 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public int row = 3;
-    public int column = 9;
+    public int rows = 4;
+    public int columns = 7;
+    public float MaxWeight = 100;
+    public bool IsOverLoaded = false;
     private int totalSlots;
-
     public List<InventorySlot> slots;
+    public static Inventory instance { get; private set; }
 
-    // Метод для добавления предметов в инвентарь
-    public bool AddItem(Item newItem)
+    private void Awake()
     {
-        // Проверяем, можно ли застакать предмет с существующими
-        foreach (var slot in slots)
+        if (instance != null && instance != this)
         {
-            if (slot.item != null && slot.item.type == newItem.type && slot.item.name == newItem.name)
-            {
-                // Проверка, если предмет стакается
-                if (newItem.stackAmount > 1) // Предметы с возможностью стака добавляем
-                {
-                    int currentAmount = slot.amount;
-                    int stackSize = newItem.stackAmount;
-
-                    if (currentAmount < stackSize)
-                    {
-                        // Застакаем предметы, увеличив количество в текущем слоте
-                        slot.amount += 1;
-                        return true;
-                    }
-                    else
-                    {
-                        // Слот полностью заполнен, предмет не вмещается
-                        continue;
-                    }
-                }
-            }
+            Destroy(this);
         }
-
-        // Если предмет не удалось застакать, находим пустой слот
-        foreach (var slot in slots)
+        else
         {
-            if (slot.item == null)
-            {
-                slot.item = newItem;
-                slot.amount = 1; // Первоначально добавляем 1 предмет
-
-                return true;
-            }
-        }
-
-        // Если инвентарь полный
-        return false;
-    }
-
-    // Метод для вывода всех предметов в инвентаре
-    public void DisplayInventory()
-    {
-        foreach (var slot in slots)
-        {
-            if (slot.item != null)
-            {
-                if (slot.item.type == ItemType.Food)
-                {
-                    Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.type}, Nutrition: {slot.item.nutritionValue}");
-                }
-
-                if (slot.item.type == ItemType.Resource)
-                {
-                    Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.type}");
-                }
-            }
+            instance = this;
         }
     }
 
-    private void Start()
+    void Start()
     {
-        totalSlots = row * column;
+        totalSlots = rows * columns;
         slots = new List<InventorySlot>();
 
         for (int i = 0; i < totalSlots; i++)
@@ -87,13 +35,134 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool AddItem(Item newItem)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null && slot.item.ItemId == newItem.ItemId)
+            {
+                if (newItem.stackAmount > 1 && slot.amount < newItem.stackAmount)
+                {
+                    slot.amount++;
+                    return true;
+                }
+            }
+        }
 
-    private void Update()
+        foreach (var slot in slots)
+        {
+            if (slot.item == null)
+            {
+                slot.item = newItem;
+                slot.amount = 1;
+                return true;
+            }
+        }
+
+        return false; // Inventory is full
+    }
+
+    public bool RemoveItem(Item itemToRemove)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null && slot.item.type == itemToRemove.type && slot.item.name == itemToRemove.name)
+            {
+                slot.amount--;
+                if (slot.amount <= 0)
+                {
+                    slot.item = null;
+                    slot.amount = 0;
+                }
+                return true;
+            }
+        }
+        return false; // Item not found
+    }
+
+    public bool RemoveItem(string itemId)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null && slot.item.ItemId == itemId)
+            {
+                slot.amount--;
+                if (slot.amount <= 0)
+                {
+                    slot.item = null;
+                    slot.amount = 0;
+                }
+                return true;
+            }
+        }
+        return false; // Item not found
+    }
+
+    public void DisplayInventory()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.item != null)
+            {
+                Debug.Log($"Item: {slot.item.itemName}, Amount: {slot.amount}, Type: {slot.item.type}");
+            }
+        }
+    }
+
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.O))
         {
             DisplayInventory();
         }
+
+        IsOverLoaded = GetWeight() > MaxWeight;
+    }
+
+    public float GetWeight()
+    {
+        return slots.Sum(t => t.amount * (t.item == null ? 0 : t.item.itemWeight));
+    }
+
+    public bool SwapItems(InventorySlot slot1, InventorySlot slot2)
+    {
+        // Check if both slots are not null
+        if (slot1 == null || slot2 == null)
+        {
+            Debug.LogError("One or both of the slots are null."); return false;
+        }
+        // Swap the items
+        Item tempItem = slot1.item;
+        int tempAmount = slot1.amount;
+
+        slot1.item = slot2.item;
+        slot1.amount = slot2.amount;
+
+        slot2.item = tempItem;
+        slot2.amount = tempAmount;
+        return true;
+    }
+
+    public bool SwapItems(int id1, int id2)
+    {
+        InventorySlot slot1 = GetSlotById(id1);
+        InventorySlot slot2 = GetSlotById(id2);
+
+        return SwapItems(slot1, slot2);
+    }
+
+    private InventorySlot GetSlotById(int id)
+    {
+        if (id < 0 || id >= slots.Count)
+        {
+            return null;
+        }
+        return slots[id];
+    }
+
+    public List<InventorySlot> GetSlotsByItemId(string itemId)
+    {
+        return slots.Where(item => item.item != null && item.item.ItemId.Equals(itemId)).ToList();
     }
 }
 
@@ -101,4 +170,10 @@ public class InventorySlot
 {
     public Item item;
     public int amount;
+
+    public InventorySlot()
+    {
+        item = null;
+        amount = 0;
+    }
 }

@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - NPC
+  - UIChoise
+  - DialogueAnimator
+  - DialogueName
+  - DialogueText
+  - Memories
+  - MasterVolume
   layers:
   - Default
   - TransparentFX
@@ -12,7 +19,7 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Enemy
   - 
   - 
   - 
